@@ -16,6 +16,7 @@ class HttpUtil {
     options = new BaseOptions(
       connectTimeout: 5000,
       receiveTimeout: 3000,
+      responseType: ResponseType.plain
     );
     dio = new Dio(options);
     //添加拦截器
@@ -40,6 +41,7 @@ class HttpUtil {
     try {
       response = await dio.get(url,
           queryParameters: data, options: options, cancelToken: cancelToken);
+      print('请求成功-------------${response.data}');
     } on DioError catch (e) {
       print('get error---------$e');
       formatError(e);
@@ -73,6 +75,7 @@ class HttpUtil {
     }
     return response.data;
   }
+
 
   void formatError(DioError e) {
     if (e.type == DioErrorType.CONNECT_TIMEOUT) {

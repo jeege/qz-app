@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:qz_app/components/layout.dart';
@@ -20,27 +19,35 @@ class _IndexState extends State<Index> {
 
   dynamic nav1;
   dynamic nav2;
-  List<Widget> navList = [];
+  List<Widget> navList1 = [];
+  List<Widget> navList2 = [];
 
   _init() async {
     nav1 = await getNav('1');
     nav2 = await getNav('2');
     setState(() {
-      print(nav1);
-      navList = jsonDecode(nav1).data.map((item) {
-        return FlatButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => ListPage(
-                          title: item.name,
-                        )));
-          },
-          child: Text(item.name),
-        );
-      }).toList();
+      navList1 = toList(nav1.data);
+      navList2 = toList(nav2.data);
     });
+  }
+
+  toList(data) {
+    return data.map<Widget>((item) {
+      return Expanded(
+          flex: 1,
+          child: OutlineButton(
+            padding: EdgeInsets.all(4.0),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => ListPage(
+                            title: item.name,
+                          )));
+            },
+            child: Text(item.name),
+          ));
+    }).toList();
   }
 
   @override
@@ -48,8 +55,19 @@ class _IndexState extends State<Index> {
     return PageLayout(
         title: '首页',
         body: Container(
-            child: Row(
-          children: navList,
-        )));
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('AV导航：', style: TextStyle(fontWeight: FontWeight.bold)),
+                Row(
+                  children: navList1,
+                ),
+                Text('短片导航：', style: TextStyle(fontWeight: FontWeight.bold)),
+                Row(
+                  children: navList2,
+                )
+              ],
+            )));
   }
 }
