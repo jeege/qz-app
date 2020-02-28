@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:qz_app/components/layout.dart';
@@ -42,10 +41,12 @@ class _IndexState extends State<Index> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => ListPage(
-                            title: item.name,
+                            // title: item.name,
+                            title: '视频',
                           )));
             },
-            child: Text(item.name),
+            // child: Text(item.name),
+            child: Text('视频'),
           ));
     }).toList();
   }
@@ -59,11 +60,11 @@ class _IndexState extends State<Index> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('AV导航：', style: TextStyle(fontWeight: FontWeight.bold)),
+                // Text('AV导航：', style: TextStyle(fontWeight: FontWeight.bold)),
                 Row(
                   children: navList1,
                 ),
-                Text('短片导航：', style: TextStyle(fontWeight: FontWeight.bold)),
+                // Text('短片导航：', style: TextStyle(fontWeight: FontWeight.bold)),
                 Row(
                   children: navList2,
                 )

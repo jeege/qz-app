@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
+import 'package:qz_app/pages/video.dart';
 
 class ListPage extends StatelessWidget {
   ListPage({Key key, this.title}): super(key: key);
@@ -10,7 +11,7 @@ class ListPage extends StatelessWidget {
     return PageLayout(
       title: title,
       body: Center(
-        child: Text('列表页内容')
+        child: VideoPage()
       )
     );
   }
