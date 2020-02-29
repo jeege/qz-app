@@ -11,7 +11,7 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   IjkMediaController controller = IjkMediaController();
-  final key = GlobalKey<DefaultIJKControllerWidgetState>();
+  // final key = GlobalKey<DefaultIJKControllerWidgetState>();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _VideoPageState extends State<VideoPage> {
     print('------------加载视频资源');
     await controller.setDataSource(DataSource.network(widget.url),
         autoPlay: true);
-    key.currentState.fullScreen();
+    // key.currentState.fullScreen();
     print('------------加载完成，开始播放');
     // await controller.play();
     // print('------------播放中');
@@ -37,23 +37,19 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(children: <Widget>[buildIjkPlayer()]),
-    );
+    return buildIjkPlayer();
   }
 
   Widget buildIjkPlayer() {
-    return Container(
-      child: AspectRatio(
+    return AspectRatio(
         aspectRatio: 1280 / 720,
         child: IjkPlayer(
           mediaController: controller,
           controllerWidgetBuilder: (ctl) => DefaultIJKControllerWidget(
             controller: ctl,
-            key: key,
+            // key: key,
           ),
         ),
-      ),
-    );
+      );
   }
 }
