@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
+import 'package:qz_app/components/layout.dart';
+import 'package:qz_app/model/movieDetailRes.dart';
 
 class VideoPage extends StatefulWidget {
+  final String title;
   final String url;
-  VideoPage({this.url = 'https://v2.xw0371.com/20180401/wiyCDyE3/index.m3u8'});
+  final List<MovieUrl> sourList;
+  VideoPage({this.title, this.url, this.sourList});
 
   @override
   _VideoPageState createState() => _VideoPageState();
@@ -37,19 +41,26 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return buildIjkPlayer();
+    return PageLayout(title: '学习视频',
+    bgc: Colors.black, 
+    body: Center(
+      child: Container(
+        decoration: BoxDecoration(),
+        child: buildIjkPlayer())
+    )
+      );
   }
 
   Widget buildIjkPlayer() {
     return AspectRatio(
-        aspectRatio: 1280 / 720,
-        child: IjkPlayer(
-          mediaController: controller,
-          controllerWidgetBuilder: (ctl) => DefaultIJKControllerWidget(
-            controller: ctl,
-            // key: key,
-          ),
+      aspectRatio: 1280 / 720,
+      child: IjkPlayer(
+        mediaController: controller,
+        controllerWidgetBuilder: (ctl) => DefaultIJKControllerWidget(
+          controller: ctl,
+          // key: key,
         ),
-      );
+      ),
+    );
   }
 }

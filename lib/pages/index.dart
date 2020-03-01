@@ -31,16 +31,24 @@ class _IndexState extends State<Index> {
     cate1 = await getCate('1');
     cate2 = await getCate('2');
     setState(() {
-      navList1 = toList(nav1.data, type: 1, propName: 'nav');
-      navList2 = toList(nav2.data,  type: 2, propName: 'nav');
-      cateList1 = toList(cate1.data.list,  type: 1, propName: 'cate');
-      cateList2 = toList(cate2.data.list, type: 2, propName: 'cate');
+      navList1 = generateBtnList(nav1.data, type: 1, propName: 'nav');
+      navList2 = generateBtnList(nav2.data,  type: 2, propName: 'nav');
+      cateList1 = generateBtnList(cate1.data.list,  type: 1, propName: 'cate');
+      cateList2 = generateBtnList(cate2.data.list, type: 2, propName: 'cate');
     });
   }
 
-  toList(data, {int type, String propName}) {
+  generateBtnList(data, {int type, String propName}) {
     return data.map<Widget>((item) {
-      return MaterialButton(
+      Map<String, dynamic> data = new Map<String, dynamic>();
+          data['type'] = type;
+          data[propName] = item.id;
+          return generateBtn(item.name, data);
+    }).toList();
+  }
+
+  Widget generateBtn(title,Map<String, dynamic>data){
+    return MaterialButton(
         textColor: Colors.blue,
         minWidth: 0.0,
         shape: RoundedRectangleBorder(
@@ -49,28 +57,21 @@ class _IndexState extends State<Index> {
               width: 1.0, style: BorderStyle.solid, color: Colors.blue),
         ),
         onPressed: () {
-          Navigator.push(
+          toListPage(title,data);
+        },
+        // child: Text(item.name),
+        child: Text(title),
+      );
+  }
+
+  toListPage(title,data){
+    Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => ListPage(
-                        // title: item.name,
-                        title: '视频',
-                        type: type,
-                        propName: propName,
-                        id: item.id
+                        title: title,
+                        data: data
                       )));
-        },
-        // child: Text(item.name),
-        child: Text('视频'),
-      );
-    }).toList();
-  }
-
-  Widget titleText(String txt, {double top = 10.0, double bottom = 8.0}) {
-    return Container(
-      margin: EdgeInsets.only(top: top, bottom: bottom),
-      child: Text(txt, style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold)),
-    );
   }
 
   Widget spaceBetweenWrap(List<Widget> children){
@@ -90,7 +91,16 @@ class _IndexState extends State<Index> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    titleText('AV导航：', top: 0.0),
+                    titleText('综合导航：', top: 0.0),
+                    spaceBetweenWrap([
+                      generateBtn('全部',{}),
+                      generateBtn('头条精选',{'jing': 1}),
+                      generateBtn('热门AV',{'type': 1,'state': 2}),
+                      generateBtn('热门短片',{'type': 2,'state': 2}),
+                      generateBtn('最新AV',{'type': 1,'state': 1}),
+                      generateBtn('最新短片',{'type': 2,'state': 1}),
+                    ]),
+                    titleText('AV导航：'),
                     spaceBetweenWrap(navList1),
                     titleText('短片导航：'),
                     spaceBetweenWrap(navList2),
@@ -102,3 +112,10 @@ class _IndexState extends State<Index> {
                 ))));
   }
 }
+
+  Widget titleText(String txt, {double fontSize = 16.0, double top = 10.0, double bottom = 8.0}) {
+    return Container(
+      margin: EdgeInsets.only(top: top, bottom: bottom),
+      child: Text(txt, style: TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
+    );
+  }

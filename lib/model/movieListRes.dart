@@ -66,7 +66,7 @@ class MList {
   String time;
   int hot;
   int cTime;
-  double zanLv;
+  num zanLv;
   int like;
   int isAd;
   int playtime;

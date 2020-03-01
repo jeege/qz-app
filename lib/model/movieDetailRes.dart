@@ -26,7 +26,7 @@ class Data {
   int like;
   List<MovieUrl> movieUrl;
   List<Label> label;
-  int zanLv;
+  num zanLv;
   int zan;
   List<Actor> actor;
   List<Ad> ad;

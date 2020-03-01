@@ -1,41 +1,144 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
+import 'package:qz_app/model/movieDetailRes.dart';
+import 'package:qz_app/pages/video.dart';
 
 import '../services.dart';
 
 class ListPage extends StatefulWidget {
-  ListPage({Key key, this.title, this.type, this.propName, this.id})
-      : super(key: key);
+  ListPage({Key key, this.title, this.data}) : super(key: key);
   final String title;
-  final int type;
-  final String propName;
-  final int id;
+  final Map<String, dynamic> data;
 
   @override
   _ListPageState createState() => _ListPageState();
 }
 
 class _ListPageState extends State<ListPage> {
+  WidgetsBinding widgetsBinding = WidgetsBinding.instance; //监听widget渲染
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>(); //刷新的key绑定widget
+  ScrollController _scrollController;
+  bool isLoading = false; // 是否正在加载，防止多次请求加载下一页
+  bool isFinished = false; // 是否加载完成
+
   int page = 0;
   int size = 20;
 
-  dynamic res;
+  List list = [];
+  List<MovieUrl> mList = [];
 
   @override
   void initState() {
     super.initState();
-    _init();
+    _scrollController = ScrollController();
+    widgetsBinding.addPostFrameCallback((callback) {
+      _refreshIndicatorKey.currentState.show();
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
+        _loadMore();
+      }
+    });
   }
 
   _init() async {
-    print('发起请求');
-    dynamic data = {'page': 0, 'size': 10, 'type': widget.type, widget.propName: widget.id};
-    res = await getMoveList(data);
+    Map<String, dynamic> data = widget.data;
+    data['page'] = page;
+    data['num'] = size;
+    dynamic res = await getMoveList(data);
+    setState(() {
+      list = res.data.list;
+      print('初始化------${list.length}');
+    });
+  }
+
+  Future<Null> _loadMore() async {
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+      page++;
+      Map<String, dynamic> data = widget.data;
+      data['page'] = page;
+      data['num'] = size;
+      dynamic res = await getMoveList(data);
+      setState(() {
+        isLoading = false;
+        if (res.data.list.length > 0) {
+          list.addAll(res.data.list);
+          if (res.data.list.length < size) {
+            isFinished = true;
+          }
+        } else {
+          isFinished = true;
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // 这里不要忘了将监听移除
+    _scrollController.dispose();
+  }
+
+  routeToDetail(item) async {
+    dynamic res = await getMoveDetail(item.id);
+    mList = res.data.movieUrl;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => VideoPage(
+                title: res.data.movie.title,
+                url: mList[1].url,
+                sourList: mList)));
   }
 
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-        title: widget.title, body: ListView(children: [Text('列表页')]));
+        title: widget.title,
+        body: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: _handleRefresh,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemBuilder: (context, index) {
+                if (index < list.length) {
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: OutlineButton(
+                          onPressed: () {
+                            routeToDetail(list[index]);
+                          },
+                          child: Text(list[index].id.toString()),
+                        ),
+                      )
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(isFinished ? "到底了" : "加载中..."),
+                    ),
+                  );
+                }
+              },
+              itemCount: list.length + 1,
+            )));
+  }
+
+  Future<Null> _handleRefresh() async {
+    // 模拟数据的延迟加载
+    page = 0;
+    list = [];
+    isFinished = false;
+    _init();
   }
 }

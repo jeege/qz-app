@@ -26,12 +26,10 @@ getActorList({int page, int size}) async {
   return ActorRes.fromJson(jsonDecode(res));
 }
 
-getMoveList(data) async {
-  print(data);
-  // Map _data = data;
-  // data['account'] = "309c237b47b02268";
-
-  dynamic res = await http.post('$api/movie',data:data);
+getMoveList(Map<String, dynamic> data) async {
+  Map<String, dynamic> _data = data;
+  _data['account'] = '309c237b47b02268';
+  dynamic res = await http.post('$api/movie',data:_data);
   return MovieListRes.fromJson(jsonDecode(res));
 }
 
