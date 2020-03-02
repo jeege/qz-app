@@ -111,28 +111,62 @@ class _ListPageState extends State<ListPage> {
         onTap: () {
           routeToDetail(item);
         },
-        child: Row(children: [
-          Expanded(
-              flex: 1,
-              child: CachedNetworkImage(
-                imageUrl: item.img,
-                placeholder: (context, url) =>
-                    CircularProgressIndicator() /* 透明图片 */,
-              )),
-          Expanded(
-            flex: 1,
-            child: Column(children: [
-              Text(item.title),
-              Wrap(
-                alignment: WrapAlignment.spaceAround,
-                children: <Widget>[
-                  Text('好评数：${item.hot}'),
-                  Text('好评率：${item.zanLv}%'),
-                ],
-              ),
-            ]),
-          )
-        ]));
+        child: Container(
+            margin: EdgeInsets.only(bottom: 8.0),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                  width: 200.0,
+                  height: 120.0,
+                  decoration: new BoxDecoration(
+                    color: Colors.black12,
+                  ),
+                  child: CachedNetworkImage(
+                    width: 200.0,
+                    height: 120.0,
+                    fit: BoxFit.cover,
+                    imageUrl: item.img,
+                    placeholder: (context, url) => Center(
+                        child: Container(
+                      width: 30.0,
+                      height: 30.0,
+                      child: CircularProgressIndicator(),
+                    ))
+                    /* 透明图片 */,
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 120.0,
+                    padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.title,
+                            style: TextStyle(fontSize: 14.0),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Row(children: <Widget>[
+                            Expanded(
+                                child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  '好评数：${item.hot}',
+                                  style: TextStyle(fontSize: 12.0),
+                                ),
+                                Text(
+                                  '好评率：${item.zanLv.toStringAsFixed(1)}%',
+                                  style: TextStyle(fontSize: 12.0),
+                                ),
+                              ],
+                            ))
+                          ]),
+                        ]),
+                  ))
+            ])));
   }
 
   @override

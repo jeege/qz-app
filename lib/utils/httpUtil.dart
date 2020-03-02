@@ -54,7 +54,7 @@ class HttpUtil {
     try {
       response = await dio.post(url,
           queryParameters: data, options: options, cancelToken: cancelToken);
-      print('请求成功-------------${response.data}');
+      print('请求成功-------------$url');
 
     } on DioError catch (e) {
       print('post error---------$e');
