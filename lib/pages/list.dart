@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
@@ -50,7 +51,14 @@ class _ListPageState extends State<ListPage> {
     data['num'] = size;
     dynamic res = await getMoveList(data);
     setState(() {
-      list = res.data.list;
+      if (res.data.list.length > 0) {
+        list = res.data.list;
+        if (res.data.list.length < size) {
+          isFinished = true;
+        }
+      } else {
+        isFinished = true;
+      }
       print('初始化------${list.length}');
     });
   }
@@ -98,6 +106,35 @@ class _ListPageState extends State<ListPage> {
                 sourList: mList)));
   }
 
+  Widget generateListItem(item) {
+    return GestureDetector(
+        onTap: () {
+          routeToDetail(item);
+        },
+        child: Row(children: [
+          Expanded(
+              flex: 1,
+              child: CachedNetworkImage(
+                imageUrl: item.img,
+                placeholder: (context, url) =>
+                    CircularProgressIndicator() /* 透明图片 */,
+              )),
+          Expanded(
+            flex: 1,
+            child: Column(children: [
+              Text(item.title),
+              Wrap(
+                alignment: WrapAlignment.spaceAround,
+                children: <Widget>[
+                  Text('好评数：${item.hot}'),
+                  Text('好评率：${item.zanLv}%'),
+                ],
+              ),
+            ]),
+          )
+        ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageLayout(
@@ -109,18 +146,7 @@ class _ListPageState extends State<ListPage> {
               controller: _scrollController,
               itemBuilder: (context, index) {
                 if (index < list.length) {
-                  return Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: OutlineButton(
-                          onPressed: () {
-                            routeToDetail(list[index]);
-                          },
-                          child: Text(list[index].id.toString()),
-                        ),
-                      )
-                    ],
-                  );
+                  return generateListItem(list[index]);
                 } else {
                   return Center(
                     child: Padding(
