@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
+import 'package:screen/screen.dart';
 
 class VideoPage extends StatefulWidget {
   final String title;
@@ -20,6 +21,7 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void initState() {
     super.initState();
+    Screen.keepOn(true);
     _init();
   }
 
@@ -36,6 +38,7 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void dispose() {
     controller.dispose();
+    Screen.keepOn(false);
     super.dispose();
   }
 
