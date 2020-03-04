@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:qz_app/components/layout.dart';
+import 'package:qz_app/components/rg_button.dart';
+import 'package:qz_app/components/title_text.dart';
 import 'package:qz_app/pages/list.dart';
 import 'package:qz_app/services.dart';
 
-class Index extends StatefulWidget {
+class Qiezi extends StatefulWidget {
   @override
-  _IndexState createState() => _IndexState();
+  _QieziState createState() => _QieziState();
 }
 
-class _IndexState extends State<Index> {
+class _QieziState extends State<Qiezi> {
   @override
   void initState() {
     super.initState();
@@ -48,20 +50,12 @@ class _IndexState extends State<Index> {
   }
 
   Widget generateBtn(title,Map<String, dynamic>data){
-    return MaterialButton(
-        textColor: Colors.blue,
-        minWidth: 0.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          side: BorderSide(
-              width: 1.0, style: BorderStyle.solid, color: Colors.blue),
-        ),
-        onPressed: () {
+    return RgButton(
+      title,
+      onTap: () {
           toListPage(title,data);
         },
-        // child: Text(item.name),
-        child: Text(title),
-      );
+    );
   }
 
   toListPage(title,data){
@@ -84,14 +78,14 @@ class _IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-        title: '首页',
+        title: '茄子视频',
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.all(24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    titleText('综合导航：', top: 0.0),
+                    titleText('综合导航：',top: 0.0),
                     spaceBetweenWrap([
                       generateBtn('全部',{}),
                       generateBtn('头条精选',{'jing': 1}),
@@ -112,10 +106,3 @@ class _IndexState extends State<Index> {
                 ))));
   }
 }
-
-  Widget titleText(String txt, {double fontSize = 16.0, double top = 10.0, double bottom = 8.0}) {
-    return Container(
-      margin: EdgeInsets.only(top: top, bottom: bottom),
-      child: Text(txt, style: TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
-    );
-  }
