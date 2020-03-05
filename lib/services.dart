@@ -41,8 +41,8 @@ getMoveDetail(int mid) async {
   return MovieDetailRes.fromJson(jsonDecode(res));
 }
 
-getXjList({String type = '0',String area = '0',String year = '0',String qxd = '0',String sku = '0',String vip = '0',String ma = '0',String lan = '0',String sort = '0',String currentPage,}) async {
-  dynamic res = await http.get('$apiXj/vod/listing-$type-$area-$year-$qxd-$sku-$vip-$ma-$lan-$sort-$currentPage?apiVersion=28&deviceModel=MI%209&brand=Xiaomi&deviceName=cepheus&serial=72a353b0&platform=android&version=3.5.1&_t=${new DateTime.now().millisecondsSinceEpoch}');
+getXjList(data) async {
+  dynamic res = await http.get('$apiXj/vod/listing-${data['type']}-${data['area']}-${data['year']}-${data['qxd']}-${data['sku']}-0-${data['ma']}-${data['lan']}-${data['sort']}-${data['currentPage']}?apiVersion=28&deviceModel=MI%209&brand=Xiaomi&deviceName=cepheus&serial=72a353b0&platform=android&version=3.5.1&_t=${new DateTime.now().millisecondsSinceEpoch}');
   return XjMovieListRes.fromJson(jsonDecode(res));
 }
 

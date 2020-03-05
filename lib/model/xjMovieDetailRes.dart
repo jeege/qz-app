@@ -26,6 +26,7 @@ class Data {
   String xxxApiAuth;
   int isfavorite;
   String httpurl;
+  String httpurlPreview;
 
   Data({this.xxxApiAuth, this.isfavorite, this.httpurl});
 
@@ -33,6 +34,7 @@ class Data {
     xxxApiAuth = json['xxx_api_auth'];
     isfavorite = json['isfavorite'];
     httpurl = json['httpurl'];
+    httpurlPreview = json['httpurl_preview'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +42,7 @@ class Data {
     data['xxx_api_auth'] = this.xxxApiAuth;
     data['isfavorite'] = this.isfavorite;
     data['httpurl'] = this.httpurl;
+    data['httpurl_preview'] = this.httpurlPreview;
     return data;
   }
 }

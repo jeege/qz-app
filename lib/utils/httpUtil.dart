@@ -22,7 +22,7 @@ class HttpUtil {
     //添加拦截器
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-      print("请求之前");
+      print("请求之前-----$options");
       // Do something before request is sent
       return options; //continue
     }, onResponse: (Response response) {
