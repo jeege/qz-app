@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
-import 'package:qz_app/model/movieDetailRes.dart';
 import 'package:qz_app/pages/video.dart';
 
 import '../services.dart';

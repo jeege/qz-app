@@ -182,7 +182,7 @@ class Params {
   String mosaic;
   String langvoice;
   String orderby;
-  String page;
+  int page;
 
   Params(
       {this.cateid,
@@ -254,7 +254,7 @@ class Vodrows {
   int exclusive;
   String commentcount;
   int playcountTotal;
-  int downcountTotal;
+  String downcountTotal;
   List<Tags> tags;
   List<Tags> actorTags;
   String areaid;
