@@ -48,15 +48,16 @@ class _XjListPageState extends State<XjListPage> {
     Map<String, dynamic> data = widget.data;
     data['currentPage'] = page;
     dynamic res = await getXjList(data);
+    while (res == null) {
+      res = await getXjList(data);
+    }
     setState(() {
       if (res.data.vodrows.length > 0) {
         list = res.data.vodrows;
         total = res.data.pageinfo.pages.length;
-        if (list.length >= total) {
+        if (list.length == total) {
           isFinished = true;
         }
-      } else {
-        isFinished = true;
       }
       print('初始化------${list.length}');
     });
@@ -71,15 +72,16 @@ class _XjListPageState extends State<XjListPage> {
       Map<String, dynamic> data = widget.data;
       data['currentPage'] = page;
       dynamic res = await getXjList(data);
+      while (res == null) {
+        res = await getXjList(data);
+      }
       setState(() {
         isLoading = false;
         if (res.data.vodrows.length > 0) {
           list.addAll(res.data.vodrows);
-          if (list.length >= total) {
+          if (list.length == total) {
             isFinished = true;
           }
-        } else {
-          isFinished = true;
         }
       });
     }
@@ -94,13 +96,14 @@ class _XjListPageState extends State<XjListPage> {
 
   routeToDetail(item) async {
     dynamic res = await getXjDetail(item.vodid);
-    url = res.data.httpurl | res.data.httpurlPreview;
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => VideoPage(
-                title: item.title,
-                url: url)));
+    if (res != null) {
+      url = res.data.httpurl;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  VideoPage(title: item.title, url: url)));
+    }
   }
 
   Widget generateListItem(item) {
@@ -121,7 +124,7 @@ class _XjListPageState extends State<XjListPage> {
                     width: 200.0,
                     height: 120.0,
                     fit: BoxFit.cover,
-                    imageUrl: item.coverpic,
+                    imageUrl: item.coverpic.replaceAll('https', 'http'),
                     placeholder: (context, url) => Center(
                         child: Container(
                       width: 30.0,
@@ -155,11 +158,11 @@ class _XjListPageState extends State<XjListPage> {
                                   style: TextStyle(fontSize: 12.0),
                                 ),
                                 Text(
-                                  '赞：${item.upnum}%',
+                                  '赞：${item.upnum}',
                                   style: TextStyle(fontSize: 12.0),
                                 ),
                                 Text(
-                                  '点击：${item.playcountTotal}%',
+                                  '点击：${item.playcountTotal}',
                                   style: TextStyle(fontSize: 12.0),
                                 ),
                               ],

@@ -182,7 +182,7 @@ class Params {
   String mosaic;
   String langvoice;
   String orderby;
-  int page;
+  dynamic page;
 
   Params(
       {this.cateid,
@@ -254,7 +254,7 @@ class Vodrows {
   int exclusive;
   String commentcount;
   int playcountTotal;
-  String downcountTotal;
+  dynamic downcountTotal;
   List<Tags> tags;
   List<Tags> actorTags;
   String areaid;
@@ -538,7 +538,7 @@ class Pageinfo {
 class Plist {
   String pos;
   int page;
-  int text;
+  dynamic text;
   String url;
 
   Plist({this.pos, this.page, this.text, this.url});

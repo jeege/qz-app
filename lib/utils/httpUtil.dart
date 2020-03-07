@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HttpUtil {
   static HttpUtil instance;
@@ -14,10 +16,9 @@ class HttpUtil {
 
   HttpUtil() {
     options = new BaseOptions(
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      responseType: ResponseType.plain
-    );
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        responseType: ResponseType.plain);
     dio = new Dio(options);
     //添加拦截器
     dio.interceptors
@@ -42,11 +43,14 @@ class HttpUtil {
       response = await dio.get(url,
           queryParameters: data, options: options, cancelToken: cancelToken);
       print('请求成功-------------$url');
+
+      return response.data;
     } on DioError catch (e) {
       print('get error---------$e');
       formatError(e);
+
+      return response;
     }
-    return response.data;
   }
 
   post(url, {data, options, cancelToken}) async {
@@ -56,11 +60,12 @@ class HttpUtil {
           queryParameters: data, options: options, cancelToken: cancelToken);
       print('请求成功-------------$url');
 
+      return response.data;
     } on DioError catch (e) {
       print('post error---------$e');
       formatError(e);
+      return response;
     }
-    return response.data;
   }
 
   downloadFile(urlPath, savePath) async {
@@ -71,33 +76,63 @@ class HttpUtil {
         //进度
         print("$count $total");
       });
+      return response.data;
     } on DioError catch (e) {
       print('downloadFile error---------$e');
       formatError(e);
+      return response;
     }
-    return response.data;
   }
-
 
   void formatError(DioError e) {
     if (e.type == DioErrorType.CONNECT_TIMEOUT) {
-      // It occurs when url is opened timeout.
-      print("连接超时");
+      Fluttertoast.showToast(
+          msg: "连接超时",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     } else if (e.type == DioErrorType.SEND_TIMEOUT) {
-      // It occurs when url is sent timeout.
-      print("请求超时");
+      Fluttertoast.showToast(
+          msg: "请求超时",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
-      //It occurs when receiving timeout
-      print("响应超时");
+      Fluttertoast.showToast(
+          msg: "响应超时",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     } else if (e.type == DioErrorType.RESPONSE) {
-      // When the server response, but with a incorrect status, such as 404, 503...
-      print("出现异常");
+      Fluttertoast.showToast(
+          msg: "${e.error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     } else if (e.type == DioErrorType.CANCEL) {
-      // When the request is cancelled, dio will throw a error with this type.
-      print("请求取消");
+      Fluttertoast.showToast(
+          msg: "请求取消",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     } else {
-      //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
-      print("未知错误");
+      Fluttertoast.showToast(
+          msg: "未知错误",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     }
   }
 
