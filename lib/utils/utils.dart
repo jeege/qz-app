@@ -41,10 +41,10 @@ Future getAllList(Database db, String tableName) async {
 
 Future insertHistory(Database db, HistoryItem item) async {
   var exitItem = await db
-      .rawQuery("select * from history_table WHERE title=${item.title}");
+      .rawQuery("select * from history_table WHERE title=?",[item.title]);
   if (exitItem != null) {
     ///删除数据
-    await db.rawDelete("DELETE from history_table WHERE title=${item.title}");
+    await db.rawDelete("DELETE from history_table WHERE title=?",[item.title]);
   }
   return await db.rawInsert(
       "insert into history_table (id,imgUrl,movieUrl,title) values (?,?,?,?)",
