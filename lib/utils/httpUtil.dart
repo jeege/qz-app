@@ -85,55 +85,13 @@ class HttpUtil {
   }
 
   void formatError(DioError e) {
-    if (e.type == DioErrorType.CONNECT_TIMEOUT) {
-      Fluttertoast.showToast(
-          msg: "连接超时",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    } else if (e.type == DioErrorType.SEND_TIMEOUT) {
-      Fluttertoast.showToast(
-          msg: "请求超时",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
-      Fluttertoast.showToast(
-          msg: "响应超时",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    } else if (e.type == DioErrorType.RESPONSE) {
-      Fluttertoast.showToast(
-          msg: "${e.error}",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    } else if (e.type == DioErrorType.CANCEL) {
-      Fluttertoast.showToast(
-          msg: "请求取消",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    } else {
-      Fluttertoast.showToast(
-          msg: "未知错误",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
-    }
+    Fluttertoast.showToast(
+        msg: "${e.error}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white);
   }
 
   void cancelRequests(CancelToken token) {

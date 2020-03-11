@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/title_text.dart';
+import 'package:qz_app/model/history.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
+import 'package:qz_app/utils/utils.dart';
 import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sqflite/sqlite_api.dart';
+
+import '../config.dart';
 
 class VideoPage extends StatefulWidget {
   final String title;
+  final String img;
   final String url;
   final List<MovieUrl> sourList;
-  VideoPage({this.title, this.url, this.sourList});
+  VideoPage({this.title, this.img, this.url, this.sourList});
 
   @override
   _VideoPageState createState() => _VideoPageState();
 }
 
 class _VideoPageState extends State<VideoPage> {
+  Database db;
   IjkMediaController controller = IjkMediaController();
-  // final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
-  // final key = GlobalKey<DefaultIJKControllerWidgetState>();
 
   @override
   void initState() {
@@ -30,6 +34,14 @@ class _VideoPageState extends State<VideoPage> {
   }
 
   void _init() async {
+    db = await getDb(dbName);
+    insertHistory(
+        db,
+        HistoryItem(
+            id: new DateTime.now().millisecondsSinceEpoch,
+            imgUrl: widget.img,
+            movieUrl: widget.url,
+            title: widget.title));
     print('------------加载视频资源');
     await controller.setDataSource(DataSource.network(widget.url),
         autoPlay: true);
@@ -46,10 +58,6 @@ class _VideoPageState extends State<VideoPage> {
       throw 'Could not launch ${widget.url}';
     }
   }
-
-  // downLoadURL(){
-  //   _flutterFFmpeg.execute('-i ${widget.url} ${widget.title}.mp4').then((rc) => print("FFmpeg process exited with rc $rc"));
-  // }
 
   @override
   void dispose() {
@@ -69,33 +77,21 @@ class _VideoPageState extends State<VideoPage> {
                 children: <Widget>[
               buildIjkPlayer(),
               Container(
-                padding: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
                   child: Row(children: [
-                Expanded(
-                    child: titleText(widget.title,
-                        top: 0.0, bottom: 0.0, color: Color(0xFFFFFFFF))),
-                GestureDetector(
-                  onTap: launchURL,
-                  child: Container(
-                    width: 50.0,
-                    child: Icon(
-                    Icons.open_in_browser,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                  )
-                ),
-                
-                // GestureDetector(
-                //   onTap: downLoadURL,
-                //   child: Container(
-                //     width: 50.0,
-                //     child: Icon(
-                //     Icons.file_download,
-                //     color: Color(0xFFFFFFFF),
-                //   ),
-                //   )
-                // )
-              ]))
+                    Expanded(
+                        child: titleText(widget.title,
+                            top: 0.0, bottom: 0.0, color: Color(0xFFFFFFFF))),
+                    GestureDetector(
+                        onTap: launchURL,
+                        child: Container(
+                          width: 50.0,
+                          child: Icon(
+                            Icons.open_in_browser,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                        )),
+                  ]))
             ])));
   }
 

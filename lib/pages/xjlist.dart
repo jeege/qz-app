@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/pages/video.dart';
 
@@ -97,12 +98,24 @@ class _XjListPageState extends State<XjListPage> {
   routeToDetail(item) async {
     dynamic res = await getXjDetail(item.vodid);
     if (res != null) {
-      url = res.data.httpurl;
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  VideoPage(title: item.title, url: url)));
+      url = res.data.httpurl ?? res.data.httpurlPreview;
+      if (url != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => VideoPage(
+                    title: item.title,
+                    img: item.coverpic.replaceAll('https', 'http'),
+                    url: url)));
+      } else {
+        Fluttertoast.showToast(
+            msg: "视频链接不存在，请重试",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white);
+      }
     }
   }
 
