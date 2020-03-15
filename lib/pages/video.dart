@@ -24,6 +24,7 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   Database db;
+  bool hasLoved = false;
   IjkMediaController controller = IjkMediaController();
 
   @override
@@ -35,13 +36,11 @@ class _VideoPageState extends State<VideoPage> {
 
   void _init() async {
     db = await getDb(dbName);
-    insertHistory(
-        db,
-        HistoryItem(
-            id: new DateTime.now().millisecondsSinceEpoch,
-            imgUrl: widget.img,
-            movieUrl: widget.url,
-            title: widget.title));
+    bool _hasLoved = await isExitInHistory(db, widget.title);
+    print('-----是否收藏$_hasLoved');
+    setState(() {
+      hasLoved = _hasLoved;
+    });
     print('------------加载视频资源');
     await controller.setDataSource(DataSource.network(widget.url),
         autoPlay: true);
@@ -56,6 +55,28 @@ class _VideoPageState extends State<VideoPage> {
       await launch(widget.url);
     } else {
       throw 'Could not launch ${widget.url}';
+    }
+  }
+
+  loveHandle() async {
+    if (hasLoved) {
+      await delHistoryByTitle(db, widget.title);
+        setState(() {
+          hasLoved = false;
+        });
+    } else {
+      await insertHistory(
+          db,
+          HistoryItem(
+              id: new DateTime.now().millisecondsSinceEpoch,
+              imgUrl: widget.img,
+              movieUrl: widget.url,
+              title: widget.title));
+      
+        setState(() {
+          hasLoved = true;
+        });
+      
     }
   }
 
@@ -85,9 +106,18 @@ class _VideoPageState extends State<VideoPage> {
                     GestureDetector(
                         onTap: launchURL,
                         child: Container(
-                          width: 50.0,
+                          width: 40.0,
                           child: Icon(
                             Icons.open_in_browser,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                        )),
+                    GestureDetector(
+                        onTap: loveHandle,
+                        child: Container(
+                          width: 40.0,
+                          child: Icon(
+                            hasLoved ? Icons.favorite : Icons.favorite_border,
                             color: Color(0xFFFFFFFF),
                           ),
                         )),

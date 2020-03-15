@@ -40,15 +40,22 @@ Future getAllList(Database db, String tableName) async {
 }
 
 Future insertHistory(Database db, HistoryItem item) async {
-  var exitItem = await db
-      .rawQuery("select * from history_table WHERE title=?",[item.title]);
-  if (exitItem != null) {
-    ///删除数据
-    await db.rawDelete("DELETE from history_table WHERE title=?",[item.title]);
-  }
   return await db.rawInsert(
       "insert into history_table (id,imgUrl,movieUrl,title) values (?,?,?,?)",
       [item.id, item.imgUrl, item.movieUrl, item.title]);
+}
+
+Future delHistoryByTitle(Database db, String title) async {
+   return  await db.rawDelete("DELETE from history_table WHERE title=?",[title]);
+}
+
+Future isExitInHistory(Database db, String title) async {
+  var exitItem = await db
+      .rawQuery("select * from history_table WHERE title=?",[title]);
+  if (exitItem.length == 1) {
+    return true;
+  }
+  return false;
 }
 
 Future delHistory(Database db, int id) async {

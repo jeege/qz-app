@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qz_app/pages/nav.dart';
+import 'package:qz_app/pages/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NavPage(),
+      home: AuthPage(),
     );
   }
 }

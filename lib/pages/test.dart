@@ -153,7 +153,7 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-        title: '播放历史',
+        title: '收藏记录',
         body: ListView(
           children: generateList(),
         ));
