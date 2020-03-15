@@ -24,7 +24,7 @@ class _XjListPageState extends State<XjListPage> {
   bool isLoading = false; // 是否正在加载，防止多次请求加载下一页
   bool isFinished = false; // 是否加载完成
 
-  int page = 0;
+  int page = 1;
   int total = 0;
 
   List list = [];

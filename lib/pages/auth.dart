@@ -37,6 +37,12 @@ class _AuthPageState extends State<AuthPage> {
                     border: OutlineInputBorder(),
                     labelText: '请输入...',
                   ),
+                  onSubmitted: (text) {
+                    if(text == '6666'){
+                      Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) => NavPage()));
+                    }
+      },
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20.0),
