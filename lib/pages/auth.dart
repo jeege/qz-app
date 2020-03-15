@@ -32,8 +32,6 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   submit() {
-    print('输入框------${controller.text}');
-    print('密码------$psd');
     checkPsd(controller.text);
   }
 
@@ -42,11 +40,11 @@ class _AuthPageState extends State<AuthPage> {
       if(txt != ''){
       final file = await localFile('psd.txt');
       file.writeAsString('$txt');
-      Navigator.push(context,
+      Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => NavPage()));
           }
     } else if(txt == psd){
-      Navigator.push(context,
+      Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => NavPage()));
     }
   }
