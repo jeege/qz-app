@@ -50,7 +50,7 @@ class _NavPageState extends State<NavPage> {
     }
 
     return PageLayout(
-        title: '首页',
+        title: '导航',
         body: Container(
             padding: EdgeInsets.only(top:60.0),
             child: Align(
