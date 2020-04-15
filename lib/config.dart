@@ -1,5 +1,5 @@
 final String api = 'https://api-qn.ccsxhd.com';
-final String apiXj = 'https://3z0f9o27whr6zhy2c66z.guoguoapps.com';
+final String apiXj = 'https://60901975hrz65e2i6345.xiangxiangapps.com';
 
 const String dbName = 'test';
 const String createHistoryTable = '''
