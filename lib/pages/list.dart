@@ -101,6 +101,7 @@ class _ListPageState extends State<ListPage> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => VideoPage(
+                from: 'qiezi',
                 title: res.data.movie.title,
                 img: item.img,
                 url: mList[1].url,

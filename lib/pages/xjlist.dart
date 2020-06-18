@@ -104,6 +104,7 @@ class _XjListPageState extends State<XjListPage> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => VideoPage(
+                    from: 'xiangjiao',
                     title: item.title,
                     img: item.coverpic.replaceAll('https', 'http'),
                     url: url)));

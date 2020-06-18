@@ -37,7 +37,7 @@ class HttpUtil {
     }));
   }
 
-  get(url, {data, options, cancelToken}) async {
+  get(url, {data, options, cancelToken, showError = true}) async {
     Response response;
     try {
       response = await dio.get(url,
@@ -47,7 +47,7 @@ class HttpUtil {
       return response.data;
     } on DioError catch (e) {
       print('get error---------$e');
-      formatError(e);
+      if(showError) formatError(e);
 
       return response;
     }

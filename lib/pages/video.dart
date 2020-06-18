@@ -12,11 +12,12 @@ import 'package:sqflite/sqlite_api.dart';
 import '../config.dart';
 
 class VideoPage extends StatefulWidget {
+  final String from;
   final String title;
   final String img;
   final String url;
   final List<MovieUrl> sourList;
-  VideoPage({this.title, this.img, this.url, this.sourList});
+  VideoPage({this.from, this.title, this.img, this.url, this.sourList});
 
   @override
   _VideoPageState createState() => _VideoPageState();
@@ -42,8 +43,7 @@ class _VideoPageState extends State<VideoPage> {
       hasLoved = _hasLoved;
     });
     print('------------加载视频资源');
-    await controller.setDataSource(DataSource.network(widget.url),
-        autoPlay: true);
+    await controller.setNetworkDataSource(widget.url);
     // key.currentState.fullScreen();
     print('------------加载完成，开始播放');
     // await controller.play();
@@ -61,9 +61,9 @@ class _VideoPageState extends State<VideoPage> {
   loveHandle() async {
     if (hasLoved) {
       await delHistoryByTitle(db, widget.title);
-        setState(() {
-          hasLoved = false;
-        });
+      setState(() {
+        hasLoved = false;
+      });
     } else {
       await insertHistory(
           db,
@@ -72,11 +72,10 @@ class _VideoPageState extends State<VideoPage> {
               imgUrl: widget.img,
               movieUrl: widget.url,
               title: widget.title));
-      
-        setState(() {
-          hasLoved = true;
-        });
-      
+
+      setState(() {
+        hasLoved = true;
+      });
     }
   }
 

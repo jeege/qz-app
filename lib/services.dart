@@ -10,6 +10,7 @@ import 'package:qz_app/model/xjMovieList.dart';
 import 'package:qz_app/utils/httpUtil.dart';
 
 import 'model/actorRes.dart';
+import 'model/version.dart';
 
 getNav(String type) async {
   dynamic res = await http.get('$api/nav/$type');
@@ -56,6 +57,15 @@ getXjDetail(String id) async {
       '$apiXj/vod/reqplay/$id?apiVersion=28&deviceModel=MI%209&brand=Xiaomi&deviceName=cepheus&serial=72a353b0&platform=android&version=3.5.1&_t=${new DateTime.now().millisecondsSinceEpoch}');
   if (res != null) {
     return XjMovieDetailRes.fromJson(jsonDecode(res));
+  }
+  return null;
+}
+
+
+getVersion() async{
+    dynamic res = await http.get('https://api.github.com/repos/Dajiege/qz-app/releases/latest', showError: false);
+  if (res != null) {
+    return Version.fromJson(jsonDecode(res));
   }
   return null;
 }
