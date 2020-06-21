@@ -89,7 +89,6 @@ class HttpUtil {
         msg: "${e.error}",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        timeInSecForIos: 1,
         backgroundColor: Colors.black54,
         textColor: Colors.white);
   }

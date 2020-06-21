@@ -113,7 +113,6 @@ class _XjListPageState extends State<XjListPage> {
             msg: "视频链接不存在，请重试",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
-            timeInSecForIos: 1,
             backgroundColor: Colors.black54,
             textColor: Colors.white);
       }

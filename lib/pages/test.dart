@@ -53,7 +53,6 @@ class _TestPageState extends State<TestPage> {
           msg: "删除成功",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
           backgroundColor: Colors.black54,
           textColor: Colors.white);
       List _map = await getAllList(db, 'history_table');
@@ -65,7 +64,6 @@ class _TestPageState extends State<TestPage> {
           msg: "删除失败",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
           backgroundColor: Colors.black54,
           textColor: Colors.white);
     }

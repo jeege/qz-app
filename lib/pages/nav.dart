@@ -8,6 +8,7 @@ import 'package:qz_app/pages/test.dart';
 import 'package:qz_app/pages/xiangjiao.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../config.dart';
 import '../services.dart';
@@ -25,37 +26,78 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     init();
   }
-  
+
   void init() async {
     // 初始化收藏表
     db = await getDb(dbName);
     bool isExits = await isTableExits(db, 'history_table');
-    if(!isExits){
+    if (!isExits) {
       print('---------创建表');
       await db.execute(createHistoryTable);
     }
     db.close();
 
     compareVersion();
-    
   }
 
   compareVersion() async {
     final localVersion = await getLocalVersion();
     final latestVersion = await getLatestVersion();
-    print('最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：$localVersion');
+    print(
+        '最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：$localVersion');
     final updateFlag = checkVersion(localVersion, latestVersion.version);
-    if(updateFlag){
-      
+    if (updateFlag) {
+      showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('提示'),
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('发现新版本，是否立即更新？'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('取消'),
+                onPressed: () {
+                  Navigator.of(context).pop(0);
+                },
+              ),
+              new FlatButton(
+                child: new Text('确定'),
+                onPressed: () {
+                  Navigator.of(context).pop(1);
+                },
+              ),
+            ],
+          );
+        },
+      ).then((val) {
+        if (val == 1) {
+          launchURL(latestVersion.url);
+        }
+      });
     }
   }
 
-  checkVersion(v1,v2){
+  launchURL(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  checkVersion(v1, v2) {
     bool flag = false;
-    List<String> arr1 =  v1.toLowerCase().substring(1).split('.');
-    List<String> arr2 =  v2.toLowerCase().substring(1).split('.');
-    for(var i = 0; i < arr2.length; i++) {
-      if(int.parse(arr2[i]) > int.parse(arr1[i])){
+    List<String> arr1 = v1.toLowerCase().substring(1).split('.');
+    List<String> arr2 = v2.toLowerCase().substring(1).split('.');
+    for (var i = 0; i < arr2.length; i++) {
+      if (int.parse(arr2[i]) > int.parse(arr1[i])) {
         flag = true;
         break;
       }
@@ -103,7 +145,7 @@ class _NavPageState extends State<NavPage> {
     return PageLayout(
         title: '导航',
         body: Container(
-            padding: EdgeInsets.only(top:60.0),
+            padding: EdgeInsets.only(top: 60.0),
             child: Align(
               alignment: Alignment.topCenter,
               child: Wrap(
