@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/model/version.dart';
@@ -36,18 +38,16 @@ class _NavPageState extends State<NavPage> {
       await db.execute(createHistoryTable);
     }
     db.close();
-
-    compareVersion();
   }
 
   compareVersion() async {
-    final localVersion = await getLocalVersion();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final latestVersion = await getLatestVersion();
     print(
-        '最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：$localVersion');
-    final updateFlag = checkVersion(localVersion, latestVersion.version);
+        '最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：${packageInfo.version}');
+    final updateFlag = checkVersion(packageInfo.version, latestVersion.version);
     if (updateFlag) {
-      showDialog<Null>(
+      showDialog<int>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -81,6 +81,13 @@ class _NavPageState extends State<NavPage> {
           launchURL(latestVersion.url);
         }
       });
+    } else {
+      Fluttertoast.showToast(
+          msg: "已经是最新版本了",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
     }
   }
 
@@ -94,8 +101,8 @@ class _NavPageState extends State<NavPage> {
 
   checkVersion(v1, v2) {
     bool flag = false;
-    List<String> arr1 = v1.toLowerCase().substring(1).split('.');
-    List<String> arr2 = v2.toLowerCase().substring(1).split('.');
+    List<String> arr1 = v1.toLowerCase().split('.');
+    List<String> arr2 = v2.toLowerCase().split('.');
     for (var i = 0; i < arr2.length; i++) {
       if (int.parse(arr2[i]) > int.parse(arr1[i])) {
         flag = true;
@@ -113,17 +120,6 @@ class _NavPageState extends State<NavPage> {
       res = await getVersion();
     }
     return new LatestInfo(res.tagName, res.assets[0].browserDownloadUrl);
-  }
-
-  getLocalVersion() async {
-    try {
-      final file = await localFile('version.txt');
-      String _version = await file.readAsString();
-      print('本地文件版本：$_version');
-      return _version ?? 'v0.0.0';
-    } catch (e) {
-      return 'v0.0.0';
-    }
   }
 
   @override
@@ -156,6 +152,16 @@ class _NavPageState extends State<NavPage> {
                     generateBtn('香蕉视频', Xiangjiao()),
                     generateBtn('茄子视频', Qiezi()),
                     generateBtn('收藏记录', TestPage()),
+                    RgButton(
+                      '检查更新',
+                      height: 50.0,
+                      color: Colors.white,
+                      bgColor: Colors.blue,
+                      highlightColor: Colors.blue[400],
+                      onTap: () {
+                        compareVersion();
+                      },
+                    ),
                   ]),
             )));
   }

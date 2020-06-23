@@ -46,7 +46,7 @@ class _VideoPageState extends State<VideoPage> {
     await controller.setNetworkDataSource(widget.url);
     // key.currentState.fullScreen();
     print('------------加载完成，开始播放');
-    // await controller.play();
+    await controller.play();
     // print('------------播放中');
   }
 
