@@ -43,51 +43,54 @@ class _NavPageState extends State<NavPage> {
   compareVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final latestVersion = await getLatestVersion();
-    print(
-        '最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：${packageInfo.version}');
-    final updateFlag = checkVersion(packageInfo.version, latestVersion.version);
-    if (updateFlag) {
-      showDialog<int>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return new AlertDialog(
-            title: new Text('提示'),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: <Widget>[
-                  new Text('发现新版本，是否立即更新？'),
-                ],
+    if (latestVersion.version != '') {
+      print(
+          '最新版本：${latestVersion.version}\n最新app地址：${latestVersion.url}\n本地版本：${packageInfo.version}');
+      final updateFlag =
+          checkVersion(packageInfo.version, latestVersion.version);
+      if (updateFlag) {
+        showDialog<int>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return new AlertDialog(
+              title: new Text('提示'),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text('发现新版本，是否立即更新？'),
+                  ],
+                ),
               ),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('取消'),
-                onPressed: () {
-                  Navigator.of(context).pop(0);
-                },
-              ),
-              new FlatButton(
-                child: new Text('确定'),
-                onPressed: () {
-                  Navigator.of(context).pop(1);
-                },
-              ),
-            ],
-          );
-        },
-      ).then((val) {
-        if (val == 1) {
-          launchURL(latestVersion.url);
-        }
-      });
-    } else {
-      Fluttertoast.showToast(
-          msg: "已经是最新版本了",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          backgroundColor: Colors.black54,
-          textColor: Colors.white);
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('取消'),
+                  onPressed: () {
+                    Navigator.of(context).pop(0);
+                  },
+                ),
+                new FlatButton(
+                  child: new Text('确定'),
+                  onPressed: () {
+                    Navigator.of(context).pop(1);
+                  },
+                ),
+              ],
+            );
+          },
+        ).then((val) {
+          if (val == 1) {
+            launchURL(latestVersion.url);
+          }
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: "已经是最新版本了",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white);
+      }
     }
   }
 
@@ -114,12 +117,18 @@ class _NavPageState extends State<NavPage> {
 
   getLatestVersion() async {
     // 获取app版本
-    dynamic res = await getVersion();
-    while (res == null) {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      res = await getVersion();
+    try {
+      dynamic res = await getVersion();
+      return new LatestInfo(res.tagName, res.assets[0].browserDownloadUrl);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: e,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white);
+      return new LatestInfo('', '');
     }
-    return new LatestInfo(res.tagName, res.assets[0].browserDownloadUrl);
   }
 
   @override
