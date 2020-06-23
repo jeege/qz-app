@@ -213,7 +213,7 @@ class _XjListPageState extends State<XjListPage> {
 
   Future<Null> _handleRefresh() async {
     // 模拟数据的延迟加载
-    page = 0;
+    page = 1;
     list = [];
     isFinished = false;
     _init();
