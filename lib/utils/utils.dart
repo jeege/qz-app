@@ -46,12 +46,12 @@ Future insertHistory(Database db, HistoryItem item) async {
 }
 
 Future delHistoryByTitle(Database db, String title) async {
-   return  await db.rawDelete("DELETE from history_table WHERE title=?",[title]);
+  return await db.rawDelete("DELETE from history_table WHERE title=?", [title]);
 }
 
 Future isExitInHistory(Database db, String title) async {
-  var exitItem = await db
-      .rawQuery("select * from history_table WHERE title=?",[title]);
+  var exitItem =
+      await db.rawQuery("select * from history_table WHERE title=?", [title]);
   if (exitItem.length == 1) {
     return true;
   }

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +23,16 @@ class HttpUtil {
         receiveTimeout: 3000,
         responseType: ResponseType.plain);
     dio = new Dio(options);
+
+    // 忽略证书
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
+
     //添加拦截器
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
@@ -47,7 +60,7 @@ class HttpUtil {
       return response.data;
     } on DioError catch (e) {
       print('get error---------$e');
-      if(showError) formatError(e);
+      if (showError) formatError(e);
 
       return response;
     }
