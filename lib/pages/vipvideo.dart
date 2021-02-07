@@ -34,9 +34,6 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
         _askedToLead(clipboardData.text);
       }
     }
-    if(urlExp.hasMatch('https://www.baidu.com')) {
-      _askedToLead('123');
-    }
   }
 
   void _askedToLead(str) {
