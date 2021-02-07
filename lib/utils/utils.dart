@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:qz_app/model/history.dart';
 import 'package:sqflite/sqflite.dart';
 
+RegExp urlExp = new RegExp(r"^(?:(http(s)?\:)?\/\/)");
+
 Future<String> get localPath async {
   final directory = await getApplicationDocumentsDirectory();
   return directory.path;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
+import 'package:qz_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VipVideo extends StatefulWidget {
@@ -29,26 +30,28 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
   getClipboardData() async {
     ClipboardData clipboardData = await Clipboard.getData('text/plain');
     if(clipboardData != null) {
-      controller.text = clipboardData.text;
-      _askedToLead();
+      if(urlExp.hasMatch(clipboardData.text)) {
+        _askedToLead(clipboardData.text);
+      }
+    }
+    if(urlExp.hasMatch('https://www.baidu.com')) {
+      _askedToLead('123');
     }
   }
 
-  Future<void> _askedToLead() async {
-    showDialog<int>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              title: new Text('提示'),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    new Text('发现复制的链接，是否跳转到解析该链接？'),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
+  void _askedToLead(str) {
+     showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text('发现复制的链接:\n\n$str\n\n是否解析该链接', style: TextStyle(
+            fontSize: 16.0
+          )),
+          children: <Widget>[
+            Container(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
                 new FlatButton(
                   child: new Text('取消'),
                   onPressed: () {
@@ -57,18 +60,21 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                 ),
                 new FlatButton(
                   child: new Text('确定'),
+                  textColor: Colors.blue,
                   onPressed: () {
                     Navigator.of(context).pop(1);
                   },
                 ),
-              ],
-            );
-          },
-        ).then((val) {
-          if (val == 1) {
-            goUrl();
-          }
-        });
+              ],),
+            )
+          ],
+        );
+      }
+    ).then((val) {
+      if (val == 1) {
+        goUrl(str);
+      }
+    });
   }
 
   @override
@@ -81,8 +87,8 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
 
 
   
-  goUrl() async {
-    videoUrl = 'https://api.mvm.link/?url=${controller.text}';
+  goUrl(str) async {
+    videoUrl = 'https://api.mvm.link/?url=$str';
     if (await canLaunch(videoUrl)) {
       await launch(videoUrl);
     } else {
@@ -106,13 +112,15 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                     labelText: '请输入视频链接地址...',
                   ),
                   onSubmitted: (text) {
-                    goUrl();
+                    goUrl(text);
                   },
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20.0),
                   child: Row(children: [
-                    Expanded(child: RgButton('去看看', onTap: goUrl, height: 50.0))
+                    Expanded(child: RgButton('去看看', onTap: () => {
+                      goUrl(controller.text)
+                    }, height: 50.0))
                   ]),
                 )
               ],

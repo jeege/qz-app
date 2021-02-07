@@ -159,7 +159,7 @@ class _NavPageState extends State<NavPage> {
                   runSpacing: 20.0,
                   children: <Widget>[
                     generateBtn('香蕉视频', Xiangjiao()),
-                    generateBtn('茄子视频', Qiezi()),
+                    // generateBtn('茄子视频', Qiezi()),
                     generateBtn('免费视频', VipVideo()),
                     generateBtn('收藏记录', TestPage()),
                     RgButton(
