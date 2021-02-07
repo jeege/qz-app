@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart';
+import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:qz_app/model/history.dart';
@@ -60,4 +61,10 @@ Future isExitInHistory(Database db, String title) async {
 
 Future delHistory(Database db, int id) async {
   return await db.rawDelete("DELETE from history_table WHERE id=?", [id]);
+}
+
+
+const _chars = 'abcdefghijklmnopqrstuvwxyz';
+String getRandomString(int length) {
+  return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 }

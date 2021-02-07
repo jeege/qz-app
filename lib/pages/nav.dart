@@ -6,6 +6,7 @@ import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/model/version.dart';
 import 'package:qz_app/pages/qiezi.dart';
 import 'package:qz_app/pages/test.dart';
+import 'package:qz_app/pages/vipvideo.dart';
 import 'package:qz_app/pages/xiangjiao.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -153,12 +154,13 @@ class _NavPageState extends State<NavPage> {
             child: Align(
               alignment: Alignment.topCenter,
               child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
+                  alignment: WrapAlignment.start,
                   spacing: 20.0,
                   runSpacing: 20.0,
                   children: <Widget>[
                     generateBtn('香蕉视频', Xiangjiao()),
                     generateBtn('茄子视频', Qiezi()),
+                    generateBtn('免费视频', VipVideo()),
                     generateBtn('收藏记录', TestPage()),
                     RgButton(
                       '检查更新',
