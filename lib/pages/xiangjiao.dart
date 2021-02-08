@@ -54,8 +54,8 @@ class _XiangjiaoState extends State<Xiangjiao> {
         margin: EdgeInsets.only(bottom: 15.0),
         child: Row(children: [
           Container(
-              width: 69.0,
-              margin: EdgeInsets.only(right: 15.0),
+              width: 65.0,
+              margin: EdgeInsets.only(right: 10.0),
               child: titleText(txt)),
           Expanded(
               flex: 1,
@@ -70,7 +70,7 @@ class _XiangjiaoState extends State<Xiangjiao> {
       title: '香蕉视频',
       body: SingleChildScrollView(
           child: Container(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
