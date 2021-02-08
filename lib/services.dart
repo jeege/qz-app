@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:qz_app/config.dart';
+import 'package:qz_app/model/apiRes.dart';
 import 'package:qz_app/model/cateRes.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
 import 'package:qz_app/model/movieListRes.dart';
@@ -66,6 +67,14 @@ getVersion() async{
     dynamic res = await http.get('https://api.github.com/repos/Dajiege/qz-app/releases/latest', showError: false);
   if (res != null) {
     return Version.fromJson(jsonDecode(res));
+  }
+  return null;
+}
+
+getApi() async{
+  dynamic res = await http.get('https://cdn.jsdelivr.net/gh/jeege/qz-app@master/url.json', showError: false);
+  if (res != null) {
+    return ApiRes.fromJson(jsonDecode(res));
   }
   return null;
 }
