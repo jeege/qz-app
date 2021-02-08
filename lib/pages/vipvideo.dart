@@ -1,10 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../config.dart';
 
 class VipVideo extends StatefulWidget {
   @override
@@ -85,7 +86,7 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
 
   
   goUrl(str) async {
-    videoUrl = 'https://api.mvm.link/?url=$str';
+    videoUrl = '$vip$str';
     if (await canLaunch(videoUrl)) {
       await launch(videoUrl);
     } else {
