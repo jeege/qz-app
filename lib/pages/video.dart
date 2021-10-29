@@ -51,7 +51,9 @@ class _VideoPageState extends State<VideoPage> {
   }
 
   launchURL() async {
-    if (await canLaunch(widget.url)) {
+    if (await canLaunch('mttbrowser://url=${widget.url}')) {
+      await launch('mttbrowser://url=${widget.url}');
+    } else if (await canLaunch(widget.url)){
       await launch(widget.url);
     } else {
       throw 'Could not launch ${widget.url}';
