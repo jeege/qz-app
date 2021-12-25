@@ -55,7 +55,7 @@ class _XjListPageState extends State<XjListPage> {
     setState(() {
       if (res.data.vodrows.length > 0) {
         list = res.data.vodrows;
-        total = res.data.pageinfo.pages.length;
+        total = res.data.pageinfo.total;
         if (list.length == total) {
           isFinished = true;
         }
