@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/components/title_text.dart';
+import 'package:qz_app/pages/search.dart';
 import 'package:qz_app/pages/xjlist.dart';
 
 class Xiangjiao extends StatefulWidget {
@@ -68,6 +69,9 @@ class _XiangjiaoState extends State<Xiangjiao> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: '香蕉视频',
+      rightAction: [IconButton(icon: new Icon(Icons.search), tooltip: '关键词搜索', onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchPage()));
+      },)],
       body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.all(10.0),

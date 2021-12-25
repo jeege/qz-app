@@ -53,6 +53,16 @@ getXjList(data) async {
   return null;
 }
 
+getXjSearchList(String keyword, int page) async {
+  dynamic res = await http.get(
+      '$apiXj/search?wd=$keyword&page=$page&apiVersion=28&deviceModel=MI%209&brand=Xiaomi&deviceName=cepheus&serial=72a353b0&platform=android&version=3.5.1&_t=${new DateTime.now().millisecondsSinceEpoch}');
+  if (res != null) {
+    return XjMovieListRes.fromJson(jsonDecode(res));
+  }
+  return null;
+
+}
+
 getXjDetail(String id) async {
   dynamic res = await http.get(
       '$apiXj/vod/reqplay/$id?apiVersion=28&deviceModel=MI%209&brand=Xiaomi&deviceName=cepheus&serial=72a353b0&platform=android&version=3.5.1&_t=${new DateTime.now().millisecondsSinceEpoch}');
