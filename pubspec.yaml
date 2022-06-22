@@ -23,7 +23,7 @@ dependencies:
   cupertino_icons: 0.1.3
   dio: 3.0.9
   flutter_ijkplayer: 0.3.5+1
-  cached_network_image: 2.2.0+1
+  cached_network_image:
   screen: 0.0.5
   fluttertoast: 4.0.1
   url_launcher: 

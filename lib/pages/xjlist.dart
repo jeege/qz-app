@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/pages/video.dart';
+import 'package:qz_app/utils/cacheManage.dart';
 
 import '../services.dart';
 
@@ -137,13 +138,14 @@ class _XjListPageState extends State<XjListPage> {
                     width: 200.0,
                     height: 120.0,
                     fit: BoxFit.cover,
-                    imageUrl: item.coverpic.replaceAll('https', 'http'),
+                    imageUrl: item.coverpic,
                     placeholder: (context, url) => Center(
                         child: Container(
                       width: 30.0,
                       height: 30.0,
                       child: CircularProgressIndicator(),
-                    ))
+                    )),
+                    cacheManager: EsoImageCacheManager()
                     /* 透明图片 */,
                   )),
               Expanded(
