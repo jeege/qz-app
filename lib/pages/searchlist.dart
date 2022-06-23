@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/pages/video.dart';
+import 'package:qz_app/utils/cacheManage.dart';
 
 import '../services.dart';
 
@@ -141,7 +142,8 @@ class _SearchListState extends State<SearchList> {
                       width: 30.0,
                       height: 30.0,
                       child: CircularProgressIndicator(),
-                    ))
+                    )),
+                    cacheManager: EsoImageCacheManager()
                     /* 透明图片 */,
                   )),
               Expanded(
