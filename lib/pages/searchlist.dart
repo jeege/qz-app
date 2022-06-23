@@ -136,7 +136,7 @@ class _SearchListState extends State<SearchList> {
                     width: 200.0,
                     height: 120.0,
                     fit: BoxFit.cover,
-                    imageUrl: item.coverpic.replaceAll('https', 'http'),
+                    imageUrl: item.coverpic,
                     placeholder: (context, url) => Center(
                         child: Container(
                       width: 30.0,
