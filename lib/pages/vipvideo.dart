@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
+import 'package:qz_app/pages/webview.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -118,6 +119,10 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                   child: Row(children: [
                     Expanded(child: RgButton('去看看', onTap: () => {
                       goUrl(controller.text)
+                    }, height: 50.0)),
+                    Expanded(child: RgButton('打开webview', onTap: () => {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) => WebViewExample()))
                     }, height: 50.0))
                   ]),
                 )
