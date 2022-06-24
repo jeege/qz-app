@@ -27,13 +27,13 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['ad'] != null) {
-      ad = new List<Ad>();
+      ad = [];
       json['ad'].forEach((v) {
         ad.add(new Ad.fromJson(v));
       });
     }
     if (json['list'] != null) {
-      list = new List<CateList>();
+      list = [];
       json['list'].forEach((v) {
         list.add(new CateList.fromJson(v));
       });

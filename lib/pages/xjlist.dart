@@ -107,7 +107,7 @@ class _XjListPageState extends State<XjListPage> {
                 builder: (BuildContext context) => VideoPage(
                     from: 'xiangjiao',
                     title: item.title,
-                    img: item.coverpic.replaceAll('https', 'http'),
+                    img: item.coverpic,
                     url: url)));
       } else {
         Fluttertoast.showToast(

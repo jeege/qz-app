@@ -4,14 +4,11 @@ import 'package:package_info/package_info.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/model/version.dart';
-import 'package:qz_app/pages/qiezi.dart';
 import 'package:qz_app/pages/test.dart';
 import 'package:qz_app/pages/vipvideo.dart';
 import 'package:qz_app/pages/xiangjiao.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../config.dart';
 import '../services.dart';
 
@@ -63,13 +60,13 @@ class _NavPageState extends State<NavPage> {
                 ),
               ),
               actions: <Widget>[
-                new FlatButton(
+                new TextButton(
                   child: new Text('取消'),
                   onPressed: () {
                     Navigator.of(context).pop(0);
                   },
                 ),
-                new FlatButton(
+                new TextButton(
                   child: new Text('确定'),
                   onPressed: () {
                     Navigator.of(context).pop(1);
@@ -80,7 +77,7 @@ class _NavPageState extends State<NavPage> {
           },
         ).then((val) {
           if (val == 1) {
-            launchURL(latestVersion.url);
+            goUrl(latestVersion.url);
           }
         });
       } else {
@@ -91,14 +88,6 @@ class _NavPageState extends State<NavPage> {
             backgroundColor: Colors.black54,
             textColor: Colors.white);
       }
-    }
-  }
-
-  launchURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
     }
   }
 

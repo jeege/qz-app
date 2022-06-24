@@ -7,7 +7,7 @@ class NavRes {
   NavRes.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = [];
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });

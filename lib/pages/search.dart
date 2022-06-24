@@ -43,8 +43,8 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               margin: EdgeInsets.only(top: 20.0),
               child: Row(children: [
-                Expanded(child: RgButton('确定', onTap: () => {
-                  searchHandle(controller.text)
+                Expanded(child: RgButton('确定', onTap: () {
+                  searchHandle(controller.text);
                 }, height: 50.0))
               ]),
             )

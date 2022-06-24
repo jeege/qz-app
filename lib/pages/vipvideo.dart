@@ -4,7 +4,6 @@ import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/pages/webview.dart';
 import 'package:qz_app/utils/utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../config.dart';
 
@@ -51,15 +50,15 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
               child: Wrap(
                 alignment: WrapAlignment.center,
                 children: [
-                new FlatButton(
+                new TextButton(
                   child: new Text('取消'),
                   onPressed: () {
                     Navigator.of(context).pop(0);
                   },
                 ),
-                new FlatButton(
+                new TextButton(
                   child: new Text('确定'),
-                  textColor: Colors.blue,
+                  style: new ButtonStyle(textStyle: MaterialStateProperty.all(TextStyle(color: Colors.blue))),
                   onPressed: () {
                     Navigator.of(context).pop(1);
                   },
@@ -85,16 +84,6 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
   }
 
 
-  
-  goUrl(str) async {
-    videoUrl = '$vip$str';
-    if (await canLaunch(videoUrl)) {
-      await launch(videoUrl);
-    } else {
-      throw 'Could not launch $videoUrl';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return PageLayout(
@@ -111,18 +100,18 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                     labelText: '请输入视频链接地址...',
                   ),
                   onSubmitted: (text) {
-                    goUrl(text);
+                    goUrl('$vip$text');
                   },
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20.0),
                   child: Row(children: [
-                    Expanded(child: RgButton('去看看', onTap: () => {
-                      goUrl(controller.text)
+                    Expanded(child: RgButton('去看看', onTap: (){ 
+                      goUrl(controller.text);
                     }, height: 50.0)),
-                    Expanded(child: RgButton('打开webview', onTap: () => {
+                    Expanded(child: RgButton('打开webview', onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) => WebViewExample()))
+                          MaterialPageRoute(builder: (BuildContext context) => CustomWebview(url: 'https://m.v.qq.com/index.html')));
                     }, height: 50.0))
                   ]),
                 )

@@ -6,6 +6,8 @@ import 'dart:math';
 import 'package:path_provider/path_provider.dart';
 import 'package:qz_app/model/history.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 RegExp urlExp = new RegExp(r"^(?:(http(s)?\:)?\/\/)");
 
@@ -65,8 +67,17 @@ Future delHistory(Database db, int id) async {
   return await db.rawDelete("DELETE from history_table WHERE id=?", [id]);
 }
 
-
 const _chars = 'abcdefghijklmnopqrstuvwxyz';
 String getRandomString(int length) {
-  return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
+  return String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
+}
+
+void goUrl(String url) async {
+  Uri _url = Uri.parse(url);
+  if (url.contains('m3u8')) {
+    if(!await launchUrlString('mttbrowser://url=$url')) throw 'Could not launch $_url';
+  } else {
+    if(!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
 }

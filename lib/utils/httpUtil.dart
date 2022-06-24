@@ -31,22 +31,23 @@ class HttpUtil {
           (X509Certificate cert, String host, int port) {
         return true;
       };
+      return client;
     };
 
     //添加拦截器
-    dio.interceptors
-        .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+    dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
       print("请求之前-----$options");
       // Do something before request is sent
-      return options; //continue
-    }, onResponse: (Response response) {
+      return handler.next(options); //continue
+    }, onResponse: (Response response, ResponseInterceptorHandler handler) {
       print("响应之前");
       // Do something with response data
-      return response; // continue
-    }, onError: (DioError e) {
+      return handler.next(response); // continue
+    }, onError: (DioError e, ErrorInterceptorHandler handler) {
       print("错误之前");
       // Do something with response error
-      return e; //continue
+      return handler.next(e); //continue
     }));
   }
 

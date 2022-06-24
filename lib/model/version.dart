@@ -55,7 +55,7 @@ class Version {
     createdAt = json['created_at'];
     publishedAt = json['published_at'];
     if (json['assets'] != null) {
-      assets = new List<Assets>();
+      assets = [];
       json['assets'].forEach((v) {
         assets.add(new Assets.fromJson(v));
       });

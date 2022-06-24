@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RgButton extends StatelessWidget {
 
-  RgButton(this.txt,{this.highlightColor,this.height,this.color = Colors.blue, this.minWidth = 0.0,this.borderColor = Colors.blue, this.bgColor, this.onTap});
+  RgButton(this.txt, {this.highlightColor,this.height,this.color = Colors.blue, this.minWidth = 0.0,this.borderColor = Colors.blue, this.bgColor, this.onTap});
 
   final String txt;
   final double minWidth;

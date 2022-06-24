@@ -51,13 +51,13 @@ class Data {
     movie = json['movie'] != null ? new Movie.fromJson(json['movie']) : null;
     like = json['like'];
     if (json['movie_url'] != null) {
-      movieUrl = new List<MovieUrl>();
+      movieUrl = [];
       json['movie_url'].forEach((v) {
         movieUrl.add(new MovieUrl.fromJson(v));
       });
     }
     if (json['label'] != null) {
-      label = new List<Label>();
+      label = [];
       json['label'].forEach((v) {
         label.add(new Label.fromJson(v));
       });
@@ -65,19 +65,19 @@ class Data {
     zanLv = json['zan_lv'];
     zan = json['zan'];
     if (json['actor'] != null) {
-      actor = new List<Actor>();
+      actor = [];
       json['actor'].forEach((v) {
         actor.add(new Actor.fromJson(v));
       });
     }
     if (json['ad'] != null) {
-      ad = new List<Ad>();
+      ad = [];
       json['ad'].forEach((v) {
         ad.add(new Ad.fromJson(v));
       });
     }
     if (json['ad1'] != null) {
-      ad1 = new List<Ad>();
+      ad1 = [];
       json['ad1'].forEach((v) {
         ad1.add(new Ad.fromJson(v));
       });

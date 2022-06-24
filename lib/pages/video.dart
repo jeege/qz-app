@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/title_text.dart';
 import 'package:qz_app/model/history.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
 import 'package:qz_app/utils/utils.dart';
-import 'package:screen/screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:sqflite/sqlite_api.dart';
-
 import '../config.dart';
 
 class VideoPage extends StatefulWidget {
@@ -26,12 +22,10 @@ class VideoPage extends StatefulWidget {
 class _VideoPageState extends State<VideoPage> {
   Database db;
   bool hasLoved = false;
-  IjkMediaController controller = IjkMediaController();
 
   @override
   void initState() {
     super.initState();
-    Screen.keepOn(true);
     _init();
   }
 
@@ -42,22 +36,6 @@ class _VideoPageState extends State<VideoPage> {
     setState(() {
       hasLoved = _hasLoved;
     });
-    print('------------加载视频资源');
-    await controller.setNetworkDataSource(widget.url);
-    // key.currentState.fullScreen();
-    print('------------加载完成，开始播放');
-    await controller.play();
-    // print('------------播放中');
-  }
-
-  launchURL() async {
-    if (await canLaunch('mttbrowser://url=${widget.url}')) {
-      await launch('mttbrowser://url=${widget.url}');
-    } else if (await canLaunch(widget.url)){
-      await launch(widget.url);
-    } else {
-      throw 'Could not launch ${widget.url}';
-    }
   }
 
   loveHandle() async {
@@ -83,8 +61,6 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   void dispose() {
-    controller.dispose();
-    Screen.keepOn(false);
     super.dispose();
   }
 
@@ -105,7 +81,9 @@ class _VideoPageState extends State<VideoPage> {
                         child: titleText(widget.title,
                             top: 0.0, bottom: 0.0, color: Color(0xFFFFFFFF))),
                     GestureDetector(
-                        onTap: launchURL,
+                        onTap: () {
+                          goUrl(widget.url);
+                        },
                         child: Container(
                           width: 40.0,
                           child: Icon(
@@ -129,13 +107,7 @@ class _VideoPageState extends State<VideoPage> {
   Widget buildIjkPlayer() {
     return AspectRatio(
       aspectRatio: 1280 / 720,
-      child: IjkPlayer(
-        mediaController: controller,
-        controllerWidgetBuilder: (ctl) => DefaultIJKControllerWidget(
-          controller: ctl,
-          // key: key,
-        ),
-      ),
+      child: null
     );
   }
 }

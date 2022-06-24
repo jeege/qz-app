@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PageLayout extends StatelessWidget {
   PageLayout({Key key, this.title, this.body, this.bgc = Colors.white, this.btn, this.rightAction}) : super(key: key);
 
-  final String title;
+  final dynamic title;
   final Widget body;
   final Widget btn;
   final Color bgc;
@@ -14,7 +14,7 @@ class PageLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(title),
+        title: title is String ? Text(title) : title,
         actions: rightAction,
       ),
       backgroundColor: bgc,

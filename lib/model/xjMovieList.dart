@@ -63,7 +63,7 @@ class Data {
     params =
         json['params'] != null ? new Params.fromJson(json['params']) : null;
     if (json['vodrows'] != null) {
-      vodrows = new List<Vodrows>();
+      vodrows = [];
       json['vodrows'].forEach((v) {
         vodrows.add(new Vodrows.fromJson(v));
       });
@@ -72,55 +72,55 @@ class Data {
         ? new Pageinfo.fromJson(json['pageinfo'])
         : null;
     if (json['orders'] != null) {
-      orders = new List<KeyValue>();
+      orders = [];
       json['orders'].forEach((v) {
         orders.add(new KeyValue.fromJson(v));
       });
     }
     if (json['categories'] != null) {
-      categories = new List<Categories>();
+      categories = [];
       json['categories'].forEach((v) {
         categories.add(new Categories.fromJson(v));
       });
     }
     if (json['areas'] != null) {
-      areas = new List<Areas>();
+      areas = [];
       json['areas'].forEach((v) {
         areas.add(new Areas.fromJson(v));
       });
     }
     if (json['years'] != null) {
-      years = new List<Years>();
+      years = [];
       json['years'].forEach((v) {
         years.add(new Years.fromJson(v));
       });
     }
     if (json['definitions'] != null) {
-      definitions = new List<KeyValue>();
+      definitions = [];
       json['definitions'].forEach((v) {
         definitions.add(new KeyValue.fromJson(v));
       });
     }
     if (json['durations'] != null) {
-      durations = new List<KeyValue>();
+      durations = [];
       json['durations'].forEach((v) {
         durations.add(new KeyValue.fromJson(v));
       });
     }
     if (json['freetypes'] != null) {
-      freetypes = new List<KeyValue>();
+      freetypes = [];
       json['freetypes'].forEach((v) {
         freetypes.add(new KeyValue.fromJson(v));
       });
     }
     if (json['mosaics'] != null) {
-      mosaics = new List<KeyValue>();
+      mosaics = [];
       json['mosaics'].forEach((v) {
         mosaics.add(new KeyValue.fromJson(v));
       });
     }
     if (json['langvoices'] != null) {
-      langvoices = new List<KeyValue>();
+      langvoices = [];
       json['langvoices'].forEach((v) {
         langvoices.add(new KeyValue.fromJson(v));
       });
@@ -340,13 +340,13 @@ class Vodrows {
     playcountTotal = json['playcount_total'];
     downcountTotal = json['downcount_total'];
     if (json['tags'] != null) {
-      tags = new List<Tags>();
+      tags = [];
       json['tags'].forEach((v) {
         tags.add(new Tags.fromJson(v));
       });
     }
     if (json['actor_tags'] != null) {
-      actorTags = new List<Tags>();
+      actorTags = [];
       json['actor_tags'].forEach((v) {
         actorTags.add(new Tags.fromJson(v));
       });
@@ -489,7 +489,7 @@ class Pageinfo {
 
   Pageinfo.fromJson(Map<String, dynamic> json) {
     if (json['plist'] != null) {
-      plist = new List<Plist>();
+      plist = [];
       json['plist'].forEach((v) {
         plist.add(new Plist.fromJson(v));
       });

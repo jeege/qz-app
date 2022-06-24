@@ -1,13 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-
-class EsoImageCacheManager extends BaseCacheManager {
+class EsoImageCacheManager extends CacheManager {
   static const key = 'libEsoCachedImageData';
 
   static EsoImageCacheManager _instance;
@@ -15,13 +11,7 @@ class EsoImageCacheManager extends BaseCacheManager {
     _instance ??= EsoImageCacheManager._();
     return _instance;
   }
-  EsoImageCacheManager._() : super(key, fileService: EsoHttpFileService());
-  
-  @override
-  Future<String> getFilePath() async {
-    var directory = await getTemporaryDirectory();
-    return p.join(directory.path, key);
-  }
+  EsoImageCacheManager._() : super(Config(key, fileService: EsoHttpFileService()));
 }
 
 class EsoHttpFileService extends FileService {

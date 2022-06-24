@@ -105,7 +105,7 @@ class _SearchListState extends State<SearchList> {
                 builder: (BuildContext context) => VideoPage(
                     from: 'xiangjiao',
                     title: item.title,
-                    img: item.coverpic.replaceAll('https', 'http'),
+                    img: item.coverpic,
                     url: url)));
       } else {
         Fluttertoast.showToast(

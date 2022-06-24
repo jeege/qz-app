@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/model/history.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../config.dart';
+import '../utils/cacheManage.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -38,13 +36,6 @@ class _TestPageState extends State<TestPage> {
     db?.close();
   }
 
-  launchURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   delItem(id) async {
     final int flag = await delHistory(db, id);
@@ -89,7 +80,8 @@ class _TestPageState extends State<TestPage> {
                   width: 30.0,
                   height: 30.0,
                   child: CircularProgressIndicator(),
-                ))
+                )),
+                cacheManager: EsoImageCacheManager()
                 /* 透明图片 */,
               )),
           Expanded(
@@ -114,7 +106,7 @@ class _TestPageState extends State<TestPage> {
                           children: <Widget>[
                             GestureDetector(
                                 onTap: () {
-                                  launchURL(item.movieUrl);
+                                  goUrl(item.movieUrl);
                                 },
                                 child: Container(
                                   width: 50.0,
