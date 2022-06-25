@@ -82,7 +82,7 @@ class _VideoPageState extends State<VideoPage> {
                             top: 0.0, bottom: 0.0, color: Color(0xFFFFFFFF))),
                     GestureDetector(
                         onTap: () {
-                          goUrl(widget.url);
+                          goUrl(context, widget.url);
                         },
                         child: Container(
                           width: 40.0,
@@ -105,9 +105,6 @@ class _VideoPageState extends State<VideoPage> {
   }
 
   Widget buildIjkPlayer() {
-    return AspectRatio(
-      aspectRatio: 1280 / 720,
-      child: null
-    );
+    return AspectRatio(aspectRatio: 1280 / 720, child: null);
   }
 }

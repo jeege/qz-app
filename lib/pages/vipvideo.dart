@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
-import 'package:qz_app/pages/webview.dart';
 import 'package:qz_app/utils/utils.dart';
 
 import '../config.dart';
@@ -30,64 +29,64 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
 
   getClipboardData() async {
     ClipboardData clipboardData = await Clipboard.getData('text/plain');
-    if(clipboardData != null) {
-      if(urlExp.hasMatch(clipboardData.text)) {
+    if (clipboardData != null) {
+      if (urlExp.hasMatch(clipboardData.text)) {
         _askedToLead(clipboardData.text);
       }
     }
   }
 
   void _askedToLead(str) {
-     showDialog<int>(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: Text('发现复制的链接:\n\n$str\n\n是否解析该链接', style: TextStyle(
-            fontSize: 16.0
-          )),
-          children: <Widget>[
-            Container(
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: [
-                new TextButton(
-                  child: new Text('取消'),
-                  onPressed: () {
-                    Navigator.of(context).pop(0);
-                  },
+    showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text('发现复制的链接:\n\n$str\n\n是否解析该链接',
+                style: TextStyle(fontSize: 16.0)),
+            children: <Widget>[
+              Container(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    new TextButton(
+                      child: new Text('取消'),
+                      onPressed: () {
+                        Navigator.of(context).pop(0);
+                      },
+                    ),
+                    new TextButton(
+                      child: new Text('确定'),
+                      style: new ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                              TextStyle(color: Colors.blue))),
+                      onPressed: () {
+                        Navigator.of(context).pop(1);
+                      },
+                    ),
+                  ],
                 ),
-                new TextButton(
-                  child: new Text('确定'),
-                  style: new ButtonStyle(textStyle: MaterialStateProperty.all(TextStyle(color: Colors.blue))),
-                  onPressed: () {
-                    Navigator.of(context).pop(1);
-                  },
-                ),
-              ],),
-            )
-          ],
-        );
-      }
-    ).then((val) {
+              )
+            ],
+          );
+        }).then((val) {
       if (val == 1) {
-        goUrl(str);
+        goUrl(context, str);
       }
     });
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async{
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       getClipboardData();
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-        title: '首页',
+        title: '看视频',
         body: Container(
             padding: EdgeInsets.all(20.0),
             child: Column(
@@ -100,19 +99,16 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                     labelText: '请输入视频链接地址...',
                   ),
                   onSubmitted: (text) {
-                    goUrl('$vip$text');
+                    goUrl(context, '$vip$text');
                   },
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20.0),
                   child: Row(children: [
-                    Expanded(child: RgButton('去看看', onTap: (){ 
-                      goUrl(controller.text);
+                    Expanded(
+                        child: RgButton('去看看', onTap: () {
+                      goUrl(context, '$vip${controller.text}');
                     }, height: 50.0)),
-                    Expanded(child: RgButton('打开webview', onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) => CustomWebview(url: 'https://m.v.qq.com/index.html')));
-                    }, height: 50.0))
                   ]),
                 )
               ],

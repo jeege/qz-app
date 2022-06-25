@@ -34,8 +34,8 @@ class _QieziState extends State<Qiezi> {
     cate2 = await getCate('2');
     setState(() {
       navList1 = generateBtnList(nav1.data, type: 1, propName: 'nav');
-      navList2 = generateBtnList(nav2.data,  type: 2, propName: 'nav');
-      cateList1 = generateBtnList(cate1.data.list,  type: 1, propName: 'cate');
+      navList2 = generateBtnList(nav2.data, type: 2, propName: 'nav');
+      cateList1 = generateBtnList(cate1.data.list, type: 1, propName: 'cate');
       cateList2 = generateBtnList(cate2.data.list, type: 2, propName: 'cate');
     });
   }
@@ -43,36 +43,31 @@ class _QieziState extends State<Qiezi> {
   generateBtnList(data, {int type, String propName}) {
     return data.map<Widget>((item) {
       Map<String, dynamic> data = new Map<String, dynamic>();
-          data['type'] = type;
-          data[propName] = item.id;
-          return generateBtn(item.name, data);
+      data['type'] = type;
+      data[propName] = item.id;
+      return generateBtn(item.name, data);
     }).toList();
   }
 
-  Widget generateBtn(title,Map<String, dynamic>data){
+  Widget generateBtn(title, Map<String, dynamic> data) {
     return RgButton(
       title,
       onTap: () {
-          toListPage(title,data);
-        },
+        toListPage(title, data);
+      },
     );
   }
 
-  toListPage(title,data){
+  toListPage(title, data) {
     Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => ListPage(
-                        title: title,
-                        data: data
-                      )));
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ListPage(title: title, data: data)));
   }
 
-  Widget spaceBetweenWrap(List<Widget> children){
-    return Wrap(
-      spacing: 10.0,
-      children: children
-    );
+  Widget spaceBetweenWrap(List<Widget> children) {
+    return Wrap(spacing: 10.0, children: children);
   }
 
   @override
@@ -85,14 +80,14 @@ class _QieziState extends State<Qiezi> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    titleText('综合导航：',top: 0.0),
+                    titleText('综合导航：', top: 0.0),
                     spaceBetweenWrap([
-                      generateBtn('全部',{}),
-                      generateBtn('头条精选',{'jing': 1}),
-                      generateBtn('热门AV',{'type': 1,'state': 2}),
-                      generateBtn('热门短片',{'type': 2,'state': 2}),
-                      generateBtn('最新AV',{'type': 1,'state': 1}),
-                      generateBtn('最新短片',{'type': 2,'state': 1}),
+                      generateBtn('全部', {}),
+                      generateBtn('头条精选', {'jing': 1}),
+                      generateBtn('热门AV', {'type': 1, 'state': 2}),
+                      generateBtn('热门短片', {'type': 2, 'state': 2}),
+                      generateBtn('最新AV', {'type': 1, 'state': 1}),
+                      generateBtn('最新短片', {'type': 2, 'state': 1}),
                     ]),
                     titleText('AV导航：'),
                     spaceBetweenWrap(navList1),

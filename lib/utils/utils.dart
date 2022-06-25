@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:qz_app/model/history.dart';
+import 'package:qz_app/pages/webview.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -73,11 +75,19 @@ String getRandomString(int length) {
       length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 }
 
-void goUrl(String url) async {
+void goUrl(BuildContext context, String url) async {
   Uri _url = Uri.parse(url);
   if (url.contains('m3u8')) {
-    if(!await launchUrlString('mttbrowser://url=$url')) throw 'Could not launch $_url';
+    if (!await launchUrlString('mttbrowser://url=$url'))
+      throw 'Could not launch $_url';
   } else {
-    if(!await launchUrl(_url)) throw 'Could not launch $_url';
+    if (['http', 'https'].indexOf(_url.scheme) < 0) {
+      if (!await launchUrl(_url)) throw 'Could not launch $_url';
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => CustomWebview(url: url)));
+    }
   }
 }

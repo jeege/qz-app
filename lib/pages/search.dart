@@ -18,39 +18,42 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   searchHandle(text) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchList(keywords: text)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => SearchList(keywords: text)));
   }
 
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-      title: '搜索关键词',
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '请输入关键词...',
+        title: '搜索关键词',
+        body: Container(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '请输入关键词...',
+                ),
+                onSubmitted: (text) {
+                  searchHandle(text);
+                },
               ),
-              onSubmitted: (text) {
-                searchHandle(text);
-              },
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
-              child: Row(children: [
-                Expanded(child: RgButton('确定', onTap: () {
-                  searchHandle(controller.text);
-                }, height: 50.0))
-              ]),
-            )
-          ],
-        ),
-      )
-    );
+              Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: Row(children: [
+                  Expanded(
+                      child: RgButton('确定', onTap: () {
+                    searchHandle(controller.text);
+                  }, height: 50.0))
+                ]),
+              )
+            ],
+          ),
+        ));
   }
 }

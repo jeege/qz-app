@@ -143,8 +143,7 @@ class _SearchListState extends State<SearchList> {
                       height: 30.0,
                       child: CircularProgressIndicator(),
                     )),
-                    cacheManager: EsoImageCacheManager()
-                    /* 透明图片 */,
+                    cacheManager: EsoImageCacheManager() /* 透明图片 */,
                   )),
               Expanded(
                   flex: 1,

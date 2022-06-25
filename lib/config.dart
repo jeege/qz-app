@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:qz_app/services.dart';
@@ -9,7 +8,7 @@ String api = 'https://api-qn.ccsxhd.com';
 // final String apiXj = 'https://103.219.176.60';
 String apiXj = 'https://${getRandomString(10)}.xiangxiangapps.com';
 
-Future getApiUrl() async{
+Future getApiUrl() async {
   dynamic res = await getApi();
   vip = res.vip;
   apiXj = res.xjApi;

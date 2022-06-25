@@ -60,7 +60,6 @@ getXjSearchList(String keyword, int page) async {
     return XjMovieListRes.fromJson(jsonDecode(res));
   }
   return null;
-
 }
 
 getXjDetail(String id) async {
@@ -72,17 +71,20 @@ getXjDetail(String id) async {
   return null;
 }
 
-
-getVersion() async{
-    dynamic res = await http.get('https://api.github.com/repos/Dajiege/qz-app/releases/latest', showError: false);
+getVersion() async {
+  dynamic res = await http.get(
+      'https://api.github.com/repos/Dajiege/qz-app/releases/latest',
+      showError: false);
   if (res != null) {
     return Version.fromJson(jsonDecode(res));
   }
   return null;
 }
 
-getApi() async{
-  dynamic res = await http.get('https://cdn.jsdelivr.net/gh/jeege/qz-app@master/url.json', showError: false);
+getApi() async {
+  dynamic res = await http.get(
+      'https://cdn.jsdelivr.net/gh/jeege/qz-app@master/url.json',
+      showError: false);
   if (res != null) {
     return ApiRes.fromJson(jsonDecode(res));
   }

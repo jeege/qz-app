@@ -246,7 +246,6 @@ class Assets {
   }
 }
 
-
 class LatestInfo {
   String version;
   String url;

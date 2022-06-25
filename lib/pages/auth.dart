@@ -36,14 +36,14 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   checkPsd(String txt) async {
-    if(psd == null ) {
-      if(txt != ''){
-      final file = await localFile('psd.txt');
-      file.writeAsString('$txt');
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => NavPage()));
-          }
-    } else if(txt == psd){
+    if (psd == null) {
+      if (txt != '') {
+        final file = await localFile('psd.txt');
+        file.writeAsString('$txt');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) => NavPage()));
+      }
+    } else if (txt == psd) {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => NavPage()));
     }
@@ -62,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
                   controller: controller,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: psd == null ?'初始化登录密码...':'请输入...',
+                    labelText: psd == null ? '初始化登录密码...' : '请输入...',
                   ),
                   onSubmitted: (text) {
                     checkPsd(text);

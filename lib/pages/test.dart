@@ -36,7 +36,6 @@ class _TestPageState extends State<TestPage> {
     db?.close();
   }
 
-
   delItem(id) async {
     final int flag = await delHistory(db, id);
     if (flag == 1) {
@@ -81,8 +80,7 @@ class _TestPageState extends State<TestPage> {
                   height: 30.0,
                   child: CircularProgressIndicator(),
                 )),
-                cacheManager: EsoImageCacheManager()
-                /* 透明图片 */,
+                cacheManager: EsoImageCacheManager() /* 透明图片 */,
               )),
           Expanded(
               flex: 1,
@@ -106,7 +104,7 @@ class _TestPageState extends State<TestPage> {
                           children: <Widget>[
                             GestureDetector(
                                 onTap: () {
-                                  goUrl(item.movieUrl);
+                                  goUrl(context, item.movieUrl);
                                 },
                                 child: Container(
                                   width: 50.0,

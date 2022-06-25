@@ -6,7 +6,7 @@ class HistoryItem {
 
   HistoryItem({this.id, this.imgUrl, this.movieUrl, this.title});
 
-  HistoryItem.fromJson(Map<String, dynamic> json){
+  HistoryItem.fromJson(Map<String, dynamic> json) {
     imgUrl = json['imgUrl'];
     movieUrl = json['movieUrl'];
     title = json['title'];

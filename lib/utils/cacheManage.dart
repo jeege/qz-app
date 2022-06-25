@@ -11,7 +11,8 @@ class EsoImageCacheManager extends CacheManager {
     _instance ??= EsoImageCacheManager._();
     return _instance;
   }
-  EsoImageCacheManager._() : super(Config(key, fileService: EsoHttpFileService()));
+  EsoImageCacheManager._()
+      : super(Config(key, fileService: EsoHttpFileService()));
 }
 
 class EsoHttpFileService extends FileService {
@@ -31,7 +32,8 @@ class EsoHttpFileService extends FileService {
     });
     final HttpClientResponse httpResponse = await req.close();
     final http.StreamedResponse _response = http.StreamedResponse(
-      httpResponse.timeout(Duration(seconds: 60)), httpResponse.statusCode,
+      httpResponse.timeout(Duration(seconds: 60)),
+      httpResponse.statusCode,
       contentLength: httpResponse.contentLength,
       reasonPhrase: httpResponse.reasonPhrase,
       isRedirect: httpResponse.isRedirect,

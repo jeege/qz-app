@@ -4,8 +4,8 @@ import 'package:package_info/package_info.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/rg_button.dart';
 import 'package:qz_app/model/version.dart';
+import 'package:qz_app/pages/freevideo.dart';
 import 'package:qz_app/pages/test.dart';
-import 'package:qz_app/pages/vipvideo.dart';
 import 'package:qz_app/pages/xiangjiao.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -77,7 +77,7 @@ class _NavPageState extends State<NavPage> {
           },
         ).then((val) {
           if (val == 1) {
-            goUrl(latestVersion.url);
+            goUrl(context, latestVersion.url);
           }
         });
       } else {
@@ -149,7 +149,7 @@ class _NavPageState extends State<NavPage> {
                   children: <Widget>[
                     generateBtn('香蕉视频', Xiangjiao()),
                     // generateBtn('茄子视频', Qiezi()),
-                    generateBtn('免费视频', VipVideo()),
+                    generateBtn('免费视频', FreeVideo()),
                     generateBtn('收藏记录', TestPage()),
                     RgButton(
                       '检查更新',

@@ -132,8 +132,7 @@ class _ListPageState extends State<ListPage> {
                       width: 30.0,
                       height: 30.0,
                       child: CircularProgressIndicator(),
-                    ))
-                    /* 透明图片 */,
+                    )) /* 透明图片 */,
                   )),
               Expanded(
                   flex: 1,

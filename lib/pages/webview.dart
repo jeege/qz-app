@@ -1,7 +1,6 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:qz_app/components/layout.dart';
+import 'package:qz_app/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CustomWebview extends StatefulWidget {
@@ -12,31 +11,67 @@ class CustomWebview extends StatefulWidget {
 }
 
 class CustomWebviewState extends State<CustomWebview> {
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
-  String title;
+  String title = '';
+  WebViewController controller;
   @override
   void initState() {
     super.initState();
     // Enable virtual display.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-     _controller.future.then((controller) async {
-      String _title = await controller.getTitle();
-      setState(() {
-        title = _title;
-      });
+  }
+
+  renderTitle() async {
+    String _title = await controller.getTitle();
+    setState(() {
+      title = _title;
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return PageLayout(
-        title: title,
-        body: WebView(
-          initialUrl: widget.url,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-        ));
+    return Scaffold(
+      appBar: AppBar(
+        leading: Builder(builder: (context) {
+          if (Navigator.canPop(context)) {
+            return IconButton(
+                onPressed: () async {
+                  if (await controller.canGoBack()) {
+                    controller.goBack();
+                  } else {
+                    Navigator.maybePop(context);
+                  }
+                },
+                icon: const Icon(Icons.arrow_back));
+          }
+          return null;
+        }),
+        centerTitle: true,
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 16),
+        ),
+        actions: null,
+      ),
+      backgroundColor: Colors.white,
+      body: WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        initialUrl: widget.url,
+        onWebViewCreated: (WebViewController webViewController) {
+          controller = webViewController;
+        },
+        navigationDelegate: (NavigationRequest request) {
+          Uri u = Uri.parse(request.url);
+          if (['http', 'https'].indexOf(u.scheme) < 0) {
+            goUrl(context, request.url);
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+        onPageFinished: (url) {
+          renderTitle();
+        },
+      ),
+      floatingActionButton: null,
+    );
   }
 }

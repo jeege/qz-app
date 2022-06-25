@@ -69,9 +69,18 @@ class _XiangjiaoState extends State<Xiangjiao> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: '香蕉视频',
-      rightAction: [IconButton(icon: new Icon(Icons.search), tooltip: '关键词搜索', onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SearchPage()));
-      },)],
+      rightAction: [
+        IconButton(
+          icon: new Icon(Icons.search),
+          tooltip: '关键词搜索',
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => SearchPage()));
+          },
+        )
+      ],
       body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.all(10.0),
@@ -140,7 +149,11 @@ class _XiangjiaoState extends State<Xiangjiao> {
               ))),
       btn: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => XjListPage(title:'综合视频', data:searchData)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      XjListPage(title: '综合视频', data: searchData)));
         },
         tooltip: '搜索',
         child: const Icon(Icons.search),
