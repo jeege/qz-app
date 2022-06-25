@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'dart:math';
 
@@ -78,11 +79,14 @@ String getRandomString(int length) {
 void goUrl(BuildContext context, String url) async {
   Uri _url = Uri.parse(url);
   if (url.contains('m3u8')) {
-    if (!await launchUrlString('mttbrowser://url=$url'))
-      throw 'Could not launch $_url';
+    if (!await launchUrlString('mttbrowser://url=$url')) throw '无法访问 $_url';
   } else {
     if (['http', 'https'].indexOf(_url.scheme) < 0) {
-      if (!await launchUrl(_url)) throw 'Could not launch $_url';
+      try {
+        if (!await launchUrl(_url)) throw '无法访问 $_url';
+      } catch (e) {
+        print('-----------出错了-----------${e.message}');
+      }
     } else {
       Navigator.push(
           context,

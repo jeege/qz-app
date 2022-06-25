@@ -26,19 +26,7 @@ class _FreeVideoState extends State<FreeVideo> {
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: CachedNetworkImage(
-            width: 100.0,
-            height: 100.0,
-            fit: BoxFit.cover,
-            imageUrl: img,
-            placeholder: (context, url) => Center(
-                child: Container(
-              width: 30.0,
-              height: 30.0,
-              child: CircularProgressIndicator(),
-            )),
-            cacheManager: EsoImageCacheManager() /* 透明图片 */,
-          )),
+          child: Image.network(img)),
     );
   }
 

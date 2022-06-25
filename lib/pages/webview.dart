@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:qz_app/config.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -12,6 +13,7 @@ class CustomWebview extends StatefulWidget {
 
 class CustomWebviewState extends State<CustomWebview> {
   String title = '';
+  String currentUrl = '';
   WebViewController controller;
   @override
   void initState() {
@@ -50,7 +52,13 @@ class CustomWebviewState extends State<CustomWebview> {
           title,
           style: TextStyle(fontSize: 16),
         ),
-        actions: null,
+        actions: [
+          IconButton(
+              onPressed: () {
+                goUrl(context, '$vip$currentUrl');
+              },
+              icon: new Icon(Icons.play_arrow))
+        ],
       ),
       backgroundColor: Colors.white,
       body: WebView(
@@ -68,6 +76,7 @@ class CustomWebviewState extends State<CustomWebview> {
           return NavigationDecision.navigate;
         },
         onPageFinished: (url) {
+          currentUrl = url;
           renderTitle();
         },
       ),
