@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:qz_app/services.dart';
 import 'package:qz_app/utils/utils.dart';
 
-String vip = 'https://api.mvm.link/?url=';
+String vip = 'https://z1.m1907.cn/?jx=';
 String api = 'https://api-qn.ccsxhd.com';
 // final String apiXj = 'https://103.219.176.60';
 String apiXj = 'https://${getRandomString(10)}.xiangxiangapps.com';
 
 Future getApiUrl() async {
   dynamic res = await getApi();
-  vip = res.vip;
+  // vip = res.vip;
   apiXj = res.xjApi;
 }
 

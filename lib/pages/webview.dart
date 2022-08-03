@@ -13,12 +13,10 @@ class CustomWebview extends StatefulWidget {
 
 class CustomWebviewState extends State<CustomWebview> {
   String title = '';
-  String currentUrl = '';
   WebViewController controller;
   @override
   void initState() {
     super.initState();
-    // Enable virtual display.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
@@ -31,56 +29,52 @@ class CustomWebviewState extends State<CustomWebview> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Builder(builder: (context) {
-          if (Navigator.canPop(context)) {
-            return IconButton(
+    return WillPopScope(
+      onWillPop: () async {
+        if (await controller.canGoBack()) {
+          controller.goBack();
+          return false;
+        } else {
+          Navigator.of(context).pop(true);
+          return true;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            IconButton(
                 onPressed: () async {
-                  if (await controller.canGoBack()) {
-                    controller.goBack();
-                  } else {
-                    Navigator.maybePop(context);
-                  }
+                  goUrl(context, '$vip${await controller.currentUrl()}');
                 },
-                icon: const Icon(Icons.arrow_back));
-          }
-          return null;
-        }),
-        centerTitle: true,
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 16),
+                icon: new Icon(Icons.play_arrow))
+          ],
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                goUrl(context, '$vip$currentUrl');
-              },
-              icon: new Icon(Icons.play_arrow))
-        ],
+        backgroundColor: Colors.white,
+        body: WebView(
+          javascriptMode: JavascriptMode.unrestricted,
+          initialUrl: widget.url,
+          onWebViewCreated: (WebViewController webViewController) {
+            controller = webViewController;
+          },
+          navigationDelegate: (NavigationRequest request) {
+            print('拦截webview请求：${request.url}');
+            Uri u = Uri.parse(request.url);
+            if (['http', 'https'].indexOf(u.scheme) < 0) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+          onPageFinished: (url) {
+            renderTitle();
+          },
+        ),
+        floatingActionButton: null,
       ),
-      backgroundColor: Colors.white,
-      body: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: widget.url,
-        onWebViewCreated: (WebViewController webViewController) {
-          controller = webViewController;
-        },
-        navigationDelegate: (NavigationRequest request) {
-          Uri u = Uri.parse(request.url);
-          if (['http', 'https'].indexOf(u.scheme) < 0) {
-            goUrl(context, request.url);
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-        onPageFinished: (url) {
-          currentUrl = url;
-          renderTitle();
-        },
-      ),
-      floatingActionButton: null,
     );
   }
 }
