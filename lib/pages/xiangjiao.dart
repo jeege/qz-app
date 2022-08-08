@@ -34,8 +34,8 @@ class _XiangjiaoState extends State<Xiangjiao> {
   Widget generateBtn(title, value, propsName) {
     return RgButton(
       title,
-      color: searchData[propsName] == value ? Colors.white : Colors.blue,
-      bgColor: searchData[propsName] == value ? Colors.blue : null,
+      color: searchData[propsName] == value ? Colors.white : Colors.blueGrey,
+      bgColor: searchData[propsName] == value ? Colors.blueGrey : null,
       onTap: () {
         setState(() {
           searchData[propsName] = value;

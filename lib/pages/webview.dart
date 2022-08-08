@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:qz_app/config.dart';
-import 'package:qz_app/utils/utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qz_app/model/videoListRes.dart';
+import 'package:qz_app/pages/vlist.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../services.dart';
 
 class CustomWebview extends StatefulWidget {
   final String url;
@@ -13,6 +16,7 @@ class CustomWebview extends StatefulWidget {
 
 class CustomWebviewState extends State<CustomWebview> {
   String title = '';
+  bool showVideoBtn = false;
   WebViewController controller;
   @override
   void initState() {
@@ -22,8 +26,11 @@ class CustomWebviewState extends State<CustomWebview> {
 
   renderTitle() async {
     String _title = await controller.getTitle();
+    String isVideoPage = await controller.runJavascriptReturningResult(
+        '(function(){return /(play)|(v_.*\.html)/.test(window.location.href)})();');
     setState(() {
       title = _title;
+      showVideoBtn = isVideoPage == 'true';
     });
   }
 
@@ -48,10 +55,33 @@ class CustomWebviewState extends State<CustomWebview> {
           ),
           actions: [
             IconButton(
-                onPressed: () async {
-                  goUrl(context, '$vip${await controller.currentUrl()}');
+                onPressed: () {
+                  Navigator.of(context).pop(true);
                 },
-                icon: new Icon(Icons.play_arrow))
+                icon: new Icon(Icons.close)),
+            showVideoBtn
+                ? IconButton(
+                    onPressed: () async {
+                      VideoList res =
+                          await getVideoList(await controller.currentUrl());
+                      print(res);
+                      if (res != null && res.data != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    VList(data: res.data)));
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "没有找到视频数据",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white);
+                      }
+                    },
+                    icon: new Icon(Icons.play_arrow))
+                : Container()
           ],
         ),
         backgroundColor: Colors.white,

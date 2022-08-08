@@ -6,6 +6,7 @@ import 'package:qz_app/model/cateRes.dart';
 import 'package:qz_app/model/movieDetailRes.dart';
 import 'package:qz_app/model/movieListRes.dart';
 import 'package:qz_app/model/navRes.dart';
+import 'package:qz_app/model/videoListRes.dart';
 import 'package:qz_app/model/xjMovieDetailRes.dart';
 import 'package:qz_app/model/xjMovieList.dart';
 import 'package:qz_app/utils/httpUtil.dart';
@@ -87,6 +88,15 @@ getApi() async {
       showError: false);
   if (res != null) {
     return ApiRes.fromJson(jsonDecode(res));
+  }
+  return null;
+}
+
+Future<VideoList> getVideoList(String url) async {
+  dynamic res = await http.get('https://mail-lime.vercel.app/api/vip?url=${Uri.encodeComponent(url)}',
+      showError: false);
+  if (res != null) {
+    return VideoList.fromJson(jsonDecode(res));
   }
   return null;
 }

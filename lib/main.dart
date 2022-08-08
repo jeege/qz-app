@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qz_app/pages/auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:qz_app/utils/chineseCupertinoLocalizations.dart';
-
 import 'config.dart';
 
 void main() => runApp(MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '测试',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
         platform: TargetPlatform.iOS,
       ),
       home: AuthPage(),

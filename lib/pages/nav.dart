@@ -127,8 +127,8 @@ class _NavPageState extends State<NavPage> {
         txt,
         height: 50.0,
         color: Colors.white,
-        bgColor: Colors.blue,
-        highlightColor: Colors.blue[400],
+        bgColor: Colors.blueGrey,
+        highlightColor: Colors.blueGrey[400],
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) => widget));
@@ -155,8 +155,8 @@ class _NavPageState extends State<NavPage> {
                       '检查更新',
                       height: 50.0,
                       color: Colors.white,
-                      bgColor: Colors.blue,
-                      highlightColor: Colors.blue[400],
+                      bgColor: Colors.blueGrey,
+                      highlightColor: Colors.blueGrey[400],
                       onTap: () {
                         compareVersion();
                       },

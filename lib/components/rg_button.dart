@@ -4,9 +4,9 @@ class RgButton extends StatelessWidget {
   RgButton(this.txt,
       {this.highlightColor,
       this.height,
-      this.color = Colors.blue,
+      this.color = Colors.blueGrey,
       this.minWidth = 0.0,
-      this.borderColor = Colors.blue,
+      this.borderColor = Colors.blueGrey,
       this.bgColor,
       this.onTap});
 

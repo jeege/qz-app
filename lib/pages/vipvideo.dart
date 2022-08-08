@@ -58,7 +58,7 @@ class _VipVideoState extends State<VipVideo> with WidgetsBindingObserver {
                       child: new Text('确定'),
                       style: new ButtonStyle(
                           textStyle: MaterialStateProperty.all(
-                              TextStyle(color: Colors.blue))),
+                              TextStyle(color: Colors.blueGrey))),
                       onPressed: () {
                         Navigator.of(context).pop(1);
                       },
