@@ -1,19 +1,17 @@
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/components/title_text.dart';
 import 'package:qz_app/model/history.dart';
-import 'package:qz_app/model/movieDetailRes.dart';
 import 'package:qz_app/utils/utils.dart';
 import 'package:sqflite/sqlite_api.dart';
 import '../config.dart';
 
 class VideoPage extends StatefulWidget {
-  final String from;
   final String title;
   final String img;
   final String url;
-  final List<MovieUrl> sourList;
-  VideoPage({this.from, this.title, this.img, this.url, this.sourList});
+  VideoPage({this.title, this.img, this.url});
 
   @override
   _VideoPageState createState() => _VideoPageState();
@@ -21,6 +19,7 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   Database db;
+  final FijkPlayer player = FijkPlayer();
   bool hasLoved = false;
 
   @override
@@ -30,6 +29,8 @@ class _VideoPageState extends State<VideoPage> {
   }
 
   void _init() async {
+    await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
+    await player.setDataSource(widget.url);
     db = await getDb(dbName);
     bool _hasLoved = await isExitInHistory(db, widget.title);
     print('-----是否收藏$_hasLoved');
@@ -62,6 +63,7 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void dispose() {
     super.dispose();
+    player.release();
   }
 
   @override
@@ -73,7 +75,12 @@ class _VideoPageState extends State<VideoPage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-              buildIjkPlayer(),
+              AspectRatio(
+                  aspectRatio: 1920 / 1080,
+                  child: FijkView(
+                    player: player,
+                    color: Colors.black,
+                  )),
               Container(
                   padding: EdgeInsets.all(15.0),
                   child: Row(children: [
@@ -102,9 +109,5 @@ class _VideoPageState extends State<VideoPage> {
                         )),
                   ]))
             ])));
-  }
-
-  Widget buildIjkPlayer() {
-    return AspectRatio(aspectRatio: 1280 / 720, child: null);
   }
 }

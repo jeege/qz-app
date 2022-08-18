@@ -103,7 +103,6 @@ class _SearchListState extends State<SearchList> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => VideoPage(
-                    from: 'xiangjiao',
                     title: item.title,
                     img: item.coverpic,
                     url: url)));

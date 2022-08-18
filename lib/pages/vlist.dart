@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qz_app/components/layout.dart';
 import 'package:qz_app/model/videoListRes.dart';
+import 'package:qz_app/pages/video.dart';
 import 'package:qz_app/utils/utils.dart';
 
 import '../components/rg_button.dart';
@@ -21,8 +22,14 @@ class _VListState extends State<VList> {
     super.initState();
   }
 
-  routeToDetail(url) {
-    goUrl(context, url);
+  routeToDetail(item) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => VideoPage(
+                    title: item.name,
+                    img: null,
+                    url: item.url)));
   }
 
   Widget _generateList(list) {
@@ -34,7 +41,7 @@ class _VListState extends State<VList> {
           child: RgButton(
             item.name,
             onTap: () {
-              routeToDetail(item.url);
+              routeToDetail(item);
             },
           ));
     }));
